@@ -110,7 +110,7 @@ th{background:#f8fafc;color:var(--navy)}
     <nav class="nav">
       <button class="tab active" data-target="overview">Overview</button>
       <button class="tab" data-target="respondents">Respondents</button>
-      <button class="tab" data-target="questions">28 Questions</button>
+      <button class="tab" data-target="questions">15 Questions</button>
       <button class="tab" data-target="gaps">Role Gaps</button>
       <a href="index.html" style="border-left:1px solid var(--line);padding-left:12px;margin-left:4px;color:var(--muted);font-weight:750;padding-top:9px;padding-bottom:9px">← All tools</a>
       <a href="live.html" style="color:var(--muted);font-weight:750;padding-top:9px;padding-bottom:9px">Live Assessment →</a>
@@ -126,7 +126,7 @@ th{background:#f8fafc;color:var(--navy)}
         <span class="warning">SIMULATED RESPONSES</span>
       </div>
       <h1>ITC multi-level readiness profile</h1>
-      <p>This standalone site demonstrates how ITC's OERA results could look after a multi-level organizational survey. It uses 12 synthetic respondent personas across executive, program, field and operations layers.</p>
+      <p>This standalone site demonstrates how the Live Assessment's results could look after a real multi-level organizational survey. It uses the same 5 capabilities and 15 questions as the Live Assessment, filled in with 12 synthetic respondent personas across executive, program, field and operations layers.</p>
     </div>
     <aside class="hero-card">
       <small>IMPORTANT</small>
@@ -146,18 +146,18 @@ th{background:#f8fafc;color:var(--navy)}
   <div class="grid metrics" id="metrics"></div>
 
   <div class="card" style="padding:20px;margin-top:16px">
-    <h3 style="margin:0 0 16px;color:var(--navy)">OERA maturity by dimension</h3>
+    <h3 style="margin:0 0 16px;color:var(--navy)">Current state by capability</h3>
     <div id="dimensionBars"></div>
   </div>
 
   <div class="grid two-col" style="margin-top:16px">
     <div class="callout">
       <strong>Strongest organizational signal</strong>
-      <p><b>Opportunity Sensing & Ecosystem.</b> The simulated respondents consistently rate ITC's ability to understand needs, mobilize partners and detect emerging challenges as a major strength.</p>
+      <p><b>Ecosystem Stability.</b> The simulated respondents consistently rate ITC's ability to maintain partnerships and mobilize its member-NGO network as a major strength.</p>
     </div>
     <div class="callout">
       <strong>Primary bottleneck</strong>
-      <p><b>Experimentation & Execution.</b> The pattern suggests ITC may be better at sensing and mobilizing than at running a standardized idea → pilot → KPI → decision process.</p>
+      <p><b>Scalability ("Accordion").</b> The pattern suggests ITC may be better at sensing and mobilizing partners than at rapidly deploying the IT infrastructure and procedures a crisis surge actually requires.</p>
     </div>
   </div>
 
@@ -170,7 +170,7 @@ th{background:#f8fafc;color:var(--navy)}
 <section id="respondents" class="section panel">
   <div class="section-head">
     <div><div class="eyebrow">02 · RESPONDENTS</div><h2>12 simulated completed surveys</h2></div>
-    <div class="desc">Select a respondent to inspect the full 28-question synthetic profile.</div>
+    <div class="desc">Select a respondent to inspect the full 15-question synthetic profile.</div>
   </div>
 
   <div class="controls">
@@ -190,8 +190,8 @@ th{background:#f8fafc;color:var(--navy)}
 
 <section id="questions" class="section panel">
   <div class="section-head">
-    <div><div class="eyebrow">03 · 28 QUESTIONS</div><h2>Aggregated question-level results</h2></div>
-    <div class="desc">Every row below is an OERA assessment question. Priority = Importance × (5 − Maturity).</div>
+    <div><div class="eyebrow">03 · 15 QUESTIONS</div><h2>Aggregated question-level results</h2></div>
+    <div class="desc">Every row below is an OERA assessment question. Priority = Target × (5 − Current), same formula as the Live Assessment.</div>
   </div>
   <div id="questionTables"></div>
 </section>
@@ -202,7 +202,7 @@ th{background:#f8fafc;color:var(--navy)}
     <div class="desc">Perception gaps are treated as organizational findings in their own right.</div>
   </div>
   <div id="gapRows"></div>
-  <div class="note" style="margin-top:18px"><b>Validation target:</b> the simulation intentionally creates a moderate leadership–field gap around autonomy, experimentation resources and clarity of the innovation process. These should be tested in real interviews rather than presented as facts.</div>
+  <div class="note" style="margin-top:18px"><b>Validation target:</b> the simulation intentionally creates a moderate leadership–field gap around psychological safety for failed pilots (Risk Tolerance) and rapid IT/procedural deployment during surges (Scalability). These are hypotheses to test in the real interview, not facts — confirm them with an actual HQ and an actual field voice before citing either in Part II.</div>
 </section>
 
 </main>
@@ -211,74 +211,62 @@ th{background:#f8fafc;color:var(--navy)}
 
 <script>
 const dimensions=[
-{phase:'DIRECTION',name:'Strategic Intent & Risk Appetite',questions:[
-"Innovation priorities are clearly linked to the organization’s strategy and mission.",
-"The organization has clearly defined areas in which it actively seeks new opportunities.",
-"Employees understand what level of risk and experimentation is acceptable.",
-"Innovation initiatives are protected from being displaced by short-term operational priorities."
+{phase:'DIRECTION',name:'Anticipatory Innovation',questions:[
+"Leadership proactively designs and funds scalable solutions for anticipated future surges, rather than solely reacting to immediate, survival-mode crises.",
+"We dedicate time and resources to planning for future scenarios (e.g., post-ceasefire demand shifts) even while managing current crises.",
+"Innovation initiatives are pursued proactively, not only triggered reactively by an emergency."
 ]},
-{phase:'ENABLE',name:'Leadership, Governance & Autonomy',questions:[
-"Senior leaders actively sponsor and champion new initiatives.",
-"Employees have sufficient autonomy to initiate and test new ideas.",
-"Decision rights for innovation initiatives are clear.",
-"Approval processes are proportional to the cost and risk of the experiment."
+{phase:'ENABLE',name:'Risk Tolerance & Psychological Safety',questions:[
+"Leadership treats unsuccessful pilot initiatives as valuable learning opportunities rather than professional failures.",
+"Staff feel comfortable proposing and testing new ideas, even ones that might not work, without fear of professional repercussions.",
+"There is a defined, low-risk process for piloting small-scale changes before committing to full implementation."
 ]},
-{phase:'ENABLE',name:'Culture & People',questions:[
-"Employees feel safe proposing unconventional ideas or challenging existing practices.",
-"Failed experiments are treated as learning opportunities when conducted responsibly.",
-"Teams collaborate effectively across organizational boundaries.",
-"Employees are given opportunities to develop entrepreneurial and innovation-related skills."
+{phase:'DISCOVER',name:'Ecosystem Stability',questions:[
+"Our organization effectively maintains cooperative partnerships and avoids internal competition when faced with sudden shifts in donor funding and talent availability.",
+"When funding surges suddenly, we coordinate with other member NGOs rather than competing independently for the same therapists.",
+"We have a clear strategy for sustaining partner relationships during donor fatigue or funding scarcity."
 ]},
-{phase:'DISCOVER',name:'Opportunity Sensing & Ecosystem',questions:[
-"The organization systematically gathers information about stakeholder and user needs.",
-"The organization actively scans external trends, technologies, regulations and practices.",
-"Insights from stakeholders and the external environment are translated into identifiable opportunities.",
-"The organization effectively uses external partners to develop or test new approaches."
+{phase:'ACT',name:'Scalability ("Accordion")',questions:[
+"When emergency needs require rapid expansion, our organization successfully deploys the necessary IT infrastructure and internal procedures to manage new staff without operational breakdown.",
+"We have documented (not just informal/tribal-knowledge) procedures for onboarding new staff or volunteers during a crisis surge.",
+"After a surge ends, we can scale back down without losing critical capacity or institutional knowledge."
 ]},
-{phase:'ENABLE',name:'Resources, Data & Infrastructure',questions:[
-"Teams can access small amounts of funding and time for early-stage experiments.",
-"Teams have access to the data needed to evaluate new ideas.",
-"The organization provides tools and processes that support rapid testing and prototyping.",
-"Internal or external expertise can be mobilized quickly when a new opportunity arises."
-]},
-{phase:'ACT',name:'Experimentation & Execution',questions:[
-"Ideas move through a clear process from opportunity identification to experimentation.",
-"New ideas are tested through small-scale experiments or pilots before full implementation.",
-"Success criteria are defined before experiments begin.",
-"The organization is willing to stop, modify or scale initiatives based on evidence."
-]},
-{phase:'LEARN & SCALE',name:'Learning, Scaling & Institutionalization',questions:[
-"Lessons from experiments and projects are systematically captured.",
-"Successful pilots have a clear pathway toward broader implementation.",
-"Successful initiatives receive ownership, resources and processes within regular operations.",
-"The organization evaluates whether innovations continue to create value after implementation."
+{phase:'LEARN & SCALE',name:'Knowledge Management',questions:[
+"Our organization systematically captures and transfers specialized training across different member NGOs.",
+"When staff are reassigned to a new trauma specialization (e.g., domestic violence to war trauma), there is a formal process for transferring relevant expertise.",
+"Lessons learned from past emergency responses are documented and accessible to staff who weren't directly involved."
 ]}];
 
+// Each persona's 5 values are, in order: [Anticipatory Innovation, Risk Tolerance & Psychological
+// Safety, Ecosystem Stability, Scalability ("Accordion"), Knowledge Management] — remapped from the
+// original 7-dimension simulation so the same underlying strength/bottleneck story (ecosystem = strong,
+// scalability/execution = weak, leadership-vs-field gap on risk tolerance and scalability) carries over.
 const respondents=[
-{id:'R01',group:'Executive',role:'CEO-level',level:'Executive leadership',base:[4.4,4.2,4.3,4.8,3.8,3.6,4.4],importance:[4.8,4.8,4.5,4.8,4.8,5.0,4.8]},
-{id:'R02',group:'Executive',role:'Director of Content & Programs',level:'Executive / senior professional leadership',base:[4.2,4.0,4.3,4.8,3.7,3.5,4.4],importance:[4.8,4.8,4.7,4.8,4.8,5.0,4.9]},
-{id:'R03',group:'Executive',role:'CFO / senior finance leadership',level:'Executive / functional leadership',base:[3.8,3.8,3.8,4.2,3.3,2.9,3.8],importance:[4.4,4.5,4.1,4.3,4.9,4.8,4.6]},
-{id:'R04',group:'Program',role:'Content & Partnerships Manager',level:'Program leadership',base:[4.0,3.6,4.2,4.8,3.4,3.2,4.1],importance:[4.7,4.7,4.5,5.0,4.8,5.0,4.8]},
-{id:'R05',group:'Program',role:'National Project Manager',level:'Program / project leadership',base:[3.7,3.4,4.0,4.6,3.1,2.9,3.9],importance:[4.7,4.8,4.6,4.9,4.9,5.0,4.9]},
-{id:'R06',group:'Program',role:'Director of International Training',level:'Functional leadership',base:[4.0,3.7,4.3,4.8,3.5,3.3,4.2],importance:[4.5,4.5,4.5,5.0,4.6,4.8,4.8]},
-{id:'R07',group:'Program',role:'Resource Development Manager',level:'Functional leadership',base:[3.8,3.5,3.7,4.3,3.0,2.8,3.7],importance:[4.4,4.5,4.2,4.6,4.9,4.8,4.5]},
-{id:'R08',group:'Field',role:'North Regional Manager',level:'Regional leadership',base:[3.4,3.1,4.0,4.7,3.0,2.8,3.8],importance:[4.6,4.9,4.7,5.0,5.0,5.0,4.9]},
-{id:'R09',group:'Field',role:'Southern Resilience Centers Director',level:'Regional leadership',base:[3.6,3.2,4.2,4.8,3.1,3.0,4.0],importance:[4.7,4.9,4.8,5.0,5.0,5.0,5.0]},
-{id:'R10',group:'Field',role:'National Resilience Center Director',level:'Service / field leadership',base:[3.5,3.0,4.1,4.6,3.0,2.9,3.9],importance:[4.7,5.0,4.8,5.0,5.0,5.0,5.0]},
-{id:'R11',group:'Field',role:'Local Resilience Center Director',level:'Frontline management',base:[3.3,2.9,4.0,4.7,2.8,2.7,3.7],importance:[4.8,5.0,4.8,5.0,5.0,5.0,5.0]},
-{id:'R12',group:'Support',role:'Office / Operations Manager',level:'Operations & support',base:[3.3,3.0,3.9,4.1,3.2,2.9,3.6],importance:[4.2,4.5,4.4,4.4,4.7,4.7,4.5]}];
+{id:'R01',group:'Executive',role:'CEO-level',level:'Executive leadership',base:[4.4,4.3,4.8,3.6,4.4],importance:[4.8,4.5,4.8,5.0,4.8]},
+{id:'R02',group:'Executive',role:'Director of Content & Programs',level:'Executive / senior professional leadership',base:[4.2,4.3,4.8,3.5,4.4],importance:[4.8,4.7,4.8,5.0,4.9]},
+{id:'R03',group:'Executive',role:'CFO / senior finance leadership',level:'Executive / functional leadership',base:[3.8,3.8,4.2,2.9,3.8],importance:[4.4,4.1,4.3,4.8,4.6]},
+{id:'R04',group:'Program',role:'Content & Partnerships Manager',level:'Program leadership',base:[4.0,4.2,4.8,3.2,4.1],importance:[4.7,4.5,5.0,5.0,4.8]},
+{id:'R05',group:'Program',role:'National Project Manager',level:'Program / project leadership',base:[3.7,4.0,4.6,2.9,3.9],importance:[4.7,4.6,4.9,5.0,4.9]},
+{id:'R06',group:'Program',role:'Director of International Training',level:'Functional leadership',base:[4.0,4.3,4.8,3.3,4.2],importance:[4.5,4.5,5.0,4.8,4.8]},
+{id:'R07',group:'Program',role:'Resource Development Manager',level:'Functional leadership',base:[3.8,3.7,4.3,2.8,3.7],importance:[4.4,4.2,4.6,4.8,4.5]},
+{id:'R08',group:'Field',role:'North Regional Manager',level:'Regional leadership',base:[3.4,4.0,4.7,2.8,3.8],importance:[4.6,4.7,5.0,5.0,4.9]},
+{id:'R09',group:'Field',role:'Southern Resilience Centers Director',level:'Regional leadership',base:[3.6,4.2,4.8,3.0,4.0],importance:[4.7,4.8,5.0,5.0,5.0]},
+{id:'R10',group:'Field',role:'National Resilience Center Director',level:'Service / field leadership',base:[3.5,4.1,4.6,2.9,3.9],importance:[4.7,4.8,5.0,5.0,5.0]},
+{id:'R11',group:'Field',role:'Local Resilience Center Director',level:'Frontline management',base:[3.3,4.0,4.7,2.7,3.7],importance:[4.8,4.8,5.0,5.0,5.0]},
+{id:'R12',group:'Support',role:'Office / Operations Manager',level:'Operations & support',base:[3.3,3.9,4.1,2.9,3.6],importance:[4.2,4.4,4.4,4.7,4.5]}];
 
 const groupLabels={Executive:'Executive leadership',Program:'Program & functional leads',Field:'Regional & field leadership',Support:'Operations & support'};
-const offsets=[-.15,.10,-.05,.10];
+const offsets=[-.10,.08,-.06];
 const clamp=v=>Math.max(1,Math.min(5,Math.round(v*10)/10));
 const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
 
 function qScore(r,di,qi,type){
  let v=(type==='m'?r.base[di]:r.importance[di])+offsets[qi];
- if(type==='m'&&di===1&&qi===1){if(r.group==='Executive')v+=.25;if(r.group==='Field')v-=.35}
- if(type==='m'&&di===4&&qi===0){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
- if(type==='m'&&di===5&&qi===2){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
- if(type==='m'&&di===3&&qi===3)v+=.15;
+ // Simulated leadership-vs-field divergence, carried over onto the two capabilities most likely to show it:
+ if(type==='m'&&di===1&&qi===0){if(r.group==='Executive')v+=.25;if(r.group==='Field')v-=.35}
+ if(type==='m'&&di===3&&qi===0){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
+ if(type==='m'&&di===3&&qi===2){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
+ if(type==='m'&&di===2&&qi===2)v+=.15;
  return clamp(v)
 }
 function dimAvg(rs,di,type='m'){
@@ -286,15 +274,15 @@ function dimAvg(rs,di,type='m'){
 }
 function overall(rs){return avg(dimensions.map((_,di)=>dimAvg(rs,di,'m')))}
 function priority(m,i){return i*(5-m)}
-function pclass(v){return v>=10?'priority-high':v>=6?'priority-med':'priority-low'}
+function pclass(v){return v>=12?'priority-high':v>=6?'priority-med':'priority-low'}
 
 function renderOverview(){
- const all=overall(respondents), sens=dimAvg(respondents,3), exp=dimAvg(respondents,5);
+ const all=overall(respondents), sens=dimAvg(respondents,2), exp=dimAvg(respondents,3);
  document.getElementById('metrics').innerHTML=[
   ['Respondents','12','Across 4 organizational layers'],
-  ['Overall maturity',all.toFixed(2)+' / 5','Synthetic OERA average'],
-  ['Strongest dimension',sens.toFixed(2)+' / 5','Opportunity Sensing'],
-  ['Main bottleneck',exp.toFixed(2)+' / 5','Experimentation & Execution']
+  ['Overall current state',all.toFixed(2)+' / 5','Synthetic OERA average'],
+  ['Strongest dimension',sens.toFixed(2)+' / 5','Ecosystem Stability'],
+  ['Main bottleneck',exp.toFixed(2)+' / 5','Scalability ("Accordion")']
  ].map(x=>`<div class="card metric"><small>${x[0]}</small><strong>${x[1]}</strong><span>${x[2]}</span></div>`).join('');
 
  document.getElementById('dimensionBars').innerHTML=dimensions.map((d,di)=>{
@@ -304,7 +292,7 @@ function renderOverview(){
 
  document.getElementById('groupSummary').innerHTML=['Executive','Program','Field','Support'].map(g=>{
   const rs=respondents.filter(r=>r.group===g);
-  return `<div class="card group-card"><small>${groupLabels[g]}</small><strong>${rs.length} respondents</strong><span>Maturity ${overall(rs).toFixed(2)} / 5</span></div>`
+  return `<div class="card group-card"><small>${groupLabels[g]}</small><strong>${rs.length} respondents</strong><span>Current state ${overall(rs).toFixed(2)} / 5</span></div>`
  }).join('')
 }
 
@@ -315,7 +303,7 @@ function renderRespondents(){
   <div class="card respondent" data-id="${r.id}">
     <div class="respondent-top">
       <div><span class="badge">${r.id}</span><h3>${r.role}</h3><p>${r.level}</p></div>
-      <div class="score"><small>Maturity</small><strong>${overall([r]).toFixed(2)}</strong></div>
+      <div class="score"><small>Current state</small><strong>${overall([r]).toFixed(2)}</strong></div>
     </div>
   </div>`).join('');
  document.querySelectorAll('.respondent').forEach(el=>el.onclick=()=>showRespondent(el.dataset.id))
@@ -323,12 +311,12 @@ function renderRespondents(){
 
 function showRespondent(id){
  const r=respondents.find(x=>x.id===id), box=document.getElementById('respondentDetail');
- let html=`<div class="section-head"><div><span class="warning">SIMULATED COMPLETED SURVEY</span><h2 style="font-size:24px;margin-top:8px">${r.role}</h2><div class="desc">${r.level}</div></div><div class="score"><small>Overall maturity</small><strong>${overall([r]).toFixed(2)} / 5</strong></div></div>`;
+ let html=`<div class="section-head"><div><span class="warning">SIMULATED COMPLETED SURVEY</span><h2 style="font-size:24px;margin-top:8px">${r.role}</h2><div class="desc">${r.level}</div></div><div class="score"><small>Overall current state</small><strong>${overall([r]).toFixed(2)} / 5</strong></div></div>`;
  dimensions.forEach((d,di)=>{
   html+=`<details ${di===0?'open':''}><summary>${di+1}. ${d.name} · ${dimAvg([r],di).toFixed(2)}</summary><div class="questions">`;
   d.questions.forEach((q,qi)=>{
     const m=qScore(r,di,qi,'m'), i=qScore(r,di,qi,'i'), p=priority(m,i);
-    html+=`<div class="q ${p>=10?'high':''}"><div class="q-title">${di+1}.${qi+1} ${q}</div><div class="pills"><span class="pill">Maturity ${m.toFixed(1)}</span><span class="pill">Importance ${i.toFixed(1)}</span><span class="pill">Priority ${p.toFixed(1)}</span></div></div>`
+    html+=`<div class="q ${p>=12?'high':''}"><div class="q-title">${di+1}.${qi+1} ${q}</div><div class="pills"><span class="pill">Current ${m.toFixed(1)}</span><span class="pill">Target ${i.toFixed(1)}</span><span class="pill">Priority ${p.toFixed(1)}</span></div></div>`
   });
   html+=`</div></details>`
  });
@@ -338,7 +326,7 @@ function showRespondent(id){
 function renderQuestions(){
  let out='';
  dimensions.forEach((d,di)=>{
-  out+=`<div class="card table-card" style="margin-bottom:16px"><div style="padding:16px 18px"><span class="badge">${d.phase}</span><h3 style="margin:8px 0 0;color:var(--navy)">${di+1}. ${d.name}</h3></div><table><thead><tr><th>Question</th><th>Maturity</th><th>Importance</th><th>Priority</th></tr></thead><tbody>`;
+  out+=`<div class="card table-card" style="margin-bottom:16px"><div style="padding:16px 18px"><span class="badge">${d.phase}</span><h3 style="margin:8px 0 0;color:var(--navy)">${di+1}. ${d.name}</h3></div><table><thead><tr><th>Question</th><th>Current</th><th>Target</th><th>Priority</th></tr></thead><tbody>`;
   d.questions.forEach((q,qi)=>{
    const m=avg(respondents.map(r=>qScore(r,di,qi,'m'))), i=avg(respondents.map(r=>qScore(r,di,qi,'i'))), p=priority(m,i);
    out+=`<tr><td><b>${di+1}.${qi+1}</b> ${q}</td><td>${m.toFixed(2)}</td><td>${i.toFixed(2)}</td><td class="${pclass(p)}">${p.toFixed(1)}</td></tr>`
