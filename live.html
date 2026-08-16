@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>OERA — Organizational Entrepreneurial Readiness Assessment</title>
+<style>
+:root{
+  --bg:#f5f7fb; --paper:#fff; --navy:#17324d; --blue:#2f6f9e;
+  --ink:#1f2937; --muted:#667085; --line:#d9e2ec; --soft:#edf4f8;
+  --accent:#7fb4c7; --gold:#f2c86d; --green:#8bc6a6; --red:#e59b9b;
+  --shadow:0 14px 40px rgba(23,50,77,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);background:linear-gradient(180deg,#fbfcfe 0%,var(--bg) 100%);
+}
+a{text-decoration:none;color:inherit}
+.container{width:min(1180px,calc(100% - 32px));margin:auto}
+.topbar{
+  position:sticky;top:0;z-index:30;background:rgba(251,252,254,.93);
+  backdrop-filter:blur(12px);border-bottom:1px solid rgba(217,226,236,.9)
+}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:850;color:var(--navy)}
+.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--blue));display:grid;place-items:center;color:#fff;font-weight:900}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a{
+  padding:9px 12px;border-radius:10px;font-weight:750;font-size:14px;color:var(--muted);
+  border:1px solid transparent
+}
+.nav a:hover{color:var(--navy);background:#fff;border-color:var(--line)}
+.hero{padding:72px 0 36px}
+.badge{display:inline-flex;padding:7px 10px;border-radius:999px;background:var(--soft);color:var(--blue);font-size:12px;font-weight:850;letter-spacing:.06em}
+h1{font-size:clamp(42px,7vw,74px);line-height:.98;letter-spacing:-.045em;color:var(--navy);margin:16px 0}
+.hero p{font-size:19px;line-height:1.65;color:var(--muted);max-width:850px}
+.hero-grid{display:grid;grid-template-columns:1.25fr .75fr;gap:30px;align-items:center}
+.hero-card{
+  background:linear-gradient(155deg,var(--navy),#244d70);color:white;border-radius:26px;padding:28px;box-shadow:var(--shadow)
+}
+.hero-card small{opacity:.7;font-weight:750;letter-spacing:.08em}
+.hero-card h3{font-size:26px;line-height:1.35;margin:10px 0 0}
+.section{padding:44px 0}
+.section-title{display:flex;justify-content:space-between;gap:24px;align-items:end;margin-bottom:20px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--blue)}
+h2{margin:6px 0 0;color:var(--navy);font-size:34px;letter-spacing:-.025em}
+.desc{color:var(--muted);max-width:720px;line-height:1.6}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 28px rgba(23,50,77,.05)}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.flow-item{padding:20px}
+.flow-item b{display:block;color:var(--navy);font-size:18px;margin:6px 0}
+.flow-item p{margin:0;color:var(--muted);font-size:14px;line-height:1.5}
+.flow-item em{display:block;margin-top:8px;font-style:normal;font-size:12px;font-weight:800;color:var(--blue);background:var(--soft);border-radius:8px;padding:4px 8px}
+.dim-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.dim-card{padding:18px}
+.dim-card strong{color:var(--navy)}
+.dim-card small{display:block;color:var(--blue);font-weight:850;margin-bottom:8px}
+.dim-card p{color:var(--muted);font-size:14px;line-height:1.5;margin-bottom:0}
+.notice{
+  padding:18px 20px;border-radius:16px;background:#fff9e9;border:1px solid #eed89a;
+  color:#5e4a15;line-height:1.6
+}
+.notice strong{color:#4a3b12}
+.assessment-shell{display:grid;grid-template-columns:290px 1fr;gap:20px;align-items:start}
+.assess-side{position:sticky;top:88px;padding:18px}
+.assess-side h3{margin:0 0 8px;color:var(--navy)}
+.assess-side p{margin:0 0 16px;color:var(--muted);font-size:14px;line-height:1.5}
+.field{margin-bottom:12px}
+.field label{display:block;font-size:12px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.field input[type=text],.field select{
+  width:100%;padding:8px 9px;border:1px solid var(--line);border-radius:9px;font:inherit;background:#fff
+}
+.progress{height:10px;border-radius:999px;background:#e8edf2;overflow:hidden}
+.progress > div{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--accent));transition:.25s}
+.progress-text{font-size:13px;color:var(--muted);margin-top:7px}
+.side-links{display:grid;gap:7px;margin-top:16px}
+.side-links a{padding:9px 10px;border-radius:10px;background:#f8fafc;color:var(--navy);font-size:13px;font-weight:750;border:1px solid var(--line)}
+.side-links a:hover{background:var(--soft)}
+.side-actions{display:grid;gap:8px;margin-top:16px}
+.btn{
+  border:0;border-radius:11px;padding:11px 13px;font:inherit;font-weight:800;cursor:pointer
+}
+.btn-primary{background:var(--navy);color:white}
+.btn-secondary{background:white;color:var(--navy);border:1px solid var(--line)}
+.assessment{display:grid;gap:16px}
+.dimension{overflow:hidden}
+.dimension summary{
+  list-style:none;cursor:pointer;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:18px;
+  background:linear-gradient(180deg,#fff,#fbfdff)
+}
+.dimension summary::-webkit-details-marker{display:none}
+.dimension-title small{display:block;color:var(--blue);font-weight:900;letter-spacing:.08em;margin-bottom:5px}
+.dimension-title strong{display:block;color:var(--navy);font-size:21px}
+.dimension-title span{display:block;margin-top:5px;color:var(--muted);font-size:14px}
+.chev{font-size:22px;color:var(--blue);transition:.2s}
+details[open] .chev{transform:rotate(90deg)}
+.questions{padding:0 20px 20px;display:grid;gap:14px}
+.question{
+  border:2px solid #cddae5;border-radius:18px;padding:18px;background:#fff;box-shadow:0 5px 16px rgba(23,50,77,.04)
+}
+.question-head{display:flex;align-items:flex-start;gap:12px;margin-bottom:15px}
+.qtag{
+  flex:0 0 auto;padding:6px 9px;border-radius:999px;background:#fff2c8;color:#765c10;
+  font-size:11px;font-weight:900;letter-spacing:.06em;border:1px solid #ead188
+}
+.question h4{margin:1px 0 0;color:var(--navy);font-size:17px;line-height:1.45}
+.rating-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rating-block{border:1px solid var(--line);border-radius:14px;padding:13px;background:#fbfdff}
+.rating-title{display:flex;justify-content:space-between;gap:8px;color:var(--navy);font-weight:850;font-size:13px}
+.rating-help{color:var(--muted);font-size:12px;margin-top:2px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-top:10px}
+.score-option{position:relative}
+.score-option input{position:absolute;opacity:0;pointer-events:none}
+.score-option label{
+  display:grid;place-items:center;min-height:42px;border:1px solid var(--line);background:#fff;border-radius:10px;
+  cursor:pointer;font-weight:900;color:var(--navy);transition:.15s
+}
+.score-option label:hover{border-color:var(--accent);transform:translateY(-1px)}
+.score-option input:checked + label{background:var(--navy);color:white;border-color:var(--navy);box-shadow:0 6px 14px rgba(23,50,77,.15)}
+.legend{display:flex;justify-content:space-between;color:var(--muted);font-size:11px;margin-top:6px}
+.results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.metric{padding:18px}
+.metric small{display:block;color:var(--muted);font-weight:800}
+.metric strong{display:block;font-size:31px;color:var(--navy);margin-top:6px}
+.result-panel{padding:20px;margin-top:14px}
+.result-panel h3{margin:0 0 12px;color:var(--navy)}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left}
+th{color:var(--navy);background:#f8fafc;position:sticky;top:0}
+.pill{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:12px;font-weight:850}
+.pill-high{background:#fde5e5;color:#8c3535}
+.pill-med{background:#fff0c7;color:#7a5c10}
+.pill-low{background:#e7f5ec;color:#2f6846}
+#uploadArea{border:2px dashed var(--line);border-radius:14px;padding:16px;text-align:center;color:var(--muted);margin-bottom:14px}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);color:var(--blue);padding:5px 10px;border-radius:999px;font-size:12px;font-weight:750;margin:3px}
+.footer{padding:44px 0 60px;color:var(--muted);font-size:13px}
+@media(max-width:980px){
+  .hero-grid,.assessment-shell{grid-template-columns:1fr}
+  .assess-side{position:static}
+  .dim-grid{grid-template-columns:1fr 1fr}
+  .results-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:720px){
+  .nav{display:none}.flow,.dim-grid,.rating-grid,.results-grid{grid-template-columns:1fr}
+  .section-title{display:block}.hero{padding-top:48px}
+}
+@media print{
+  .topbar,.assess-side,.side-actions{display:none!important}
+  body{background:white}
+  .assessment-shell{display:block}
+  details{break-inside:avoid}
+  details:not([open]) .questions{display:grid!important}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand"><div class="mark">O</div>OERA — Live Assessment</div>
+    <nav class="nav">
+      <a href="#overview">Overview</a>
+      <a href="#dimensions">Dimensions</a>
+      <a href="#assessment">Assessment</a>
+      <a href="#results">Results</a>
+      <a href="index.html" style="border-left:1px solid var(--line);padding-left:12px;margin-left:4px">← All tools</a>
+      <a href="simulated.html">Simulated Preview →</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero" id="overview">
+  <div class="container hero-grid">
+    <div>
+      <span class="badge">ORGANIZATIONAL ENTREPRENEURIAL READINESS ASSESSMENT</span>
+      <h1>Assess readiness.<br/>Find bottlenecks.<br/>Prioritize change.</h1>
+      <p>OERA is a generic model for assessing whether an organization has the conditions required to identify opportunities, experiment under uncertainty, learn from evidence, and scale successful change. This instance applies the model to a real partner organization, using five capabilities drawn from direct evidence rather than the full generic set.</p>
+    </div>
+    <aside class="hero-card">
+      <small>CORE QUESTION</small>
+      <h3>How ready is the organization to identify opportunities, experiment, learn, and turn successful ideas into sustainable organizational change?</h3>
+    </aside>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-title">
+      <div><div class="eyebrow">01 · MODEL LOGIC</div><h2>Direction → Enable → Discover → Act → Learn &amp; Scale</h2></div>
+      <div class="desc">The model treats entrepreneurial readiness as an organizational system. A weakness in one critical stage can become a bottleneck for the whole system. Each stage below is instantiated by one applied capability in this assessment.</div>
+    </div>
+    <div class="flow" id="flowGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="dimensions">
+  <div class="container">
+    <div class="section-title">
+      <div><div class="eyebrow">02 · FIVE APPLIED CAPABILITIES</div><h2>What this assessment measures</h2></div>
+      <div class="desc">The instrument contains 15 assessment questions: three questions in each of five capabilities, one per stage of the model logic above.</div>
+    </div>
+    <div class="dim-grid" id="dimensionCards"></div>
+  </div>
+</section>
+
+<section class="section" id="assessment">
+  <div class="container">
+    <div class="section-title">
+      <div><div class="eyebrow">03 · LIVE ASSESSMENT</div><h2>Rate the organization</h2></div>
+      <div class="desc">For every assessment question, give two scores: <b>current state</b> and <b>target state</b>. The gap between them, weighted by how important the target is, is what drives the priority ranking below.</div>
+    </div>
+
+    <div class="notice" style="margin-bottom:20px">
+      <strong>What are the assessment questions?</strong> Every item marked <b>ASSESSMENT QUESTION</b> below is part of the formal evaluation instrument. Each one should receive both a <b>Current state</b> score and a <b>Target state</b> score.
+    </div>
+
+    <div class="assessment-shell">
+      <aside class="card assess-side">
+        <h3>Respondent</h3>
+        <div class="field">
+          <label for="rName">Name (optional)</label>
+          <input type="text" id="rName" placeholder="e.g. Talia L." />
+        </div>
+        <div class="field">
+          <label for="rRole">Role</label>
+          <select id="rRole">
+            <option value="HQ Leadership">HQ Leadership</option>
+            <option value="Regional Field Coordinator">Regional Field Coordinator</option>
+            <option value="Member NGO Leader">Member NGO Leader</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+        <div class="progress-text" id="progressText">0 of 15 questions complete</div>
+        <div class="side-links" id="sideLinks"></div>
+        <div class="side-actions">
+          <button class="btn btn-primary" id="openAllBtn" type="button">Open all capabilities</button>
+          <button class="btn btn-secondary" id="closeAllBtn" type="button">Close all capabilities</button>
+          <button class="btn btn-secondary" id="jsonBtn" type="button">Export my response (JSON)</button>
+          <button class="btn btn-secondary" id="csvBtn" type="button">Export results to CSV</button>
+          <button class="btn btn-secondary" id="resetBtn" type="button">Reset ratings</button>
+        </div>
+      </aside>
+      <div class="assessment" id="assessmentBody"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="results">
+  <div class="container">
+    <div class="section-title">
+      <div><div class="eyebrow">04 · RESULTS</div><h2>Diagnosis generated from the ratings</h2></div>
+      <div class="desc">Priority score = Target × (5 − Current). High-target, low-current capabilities rise to the top.</div>
+    </div>
+
+    <div class="results-grid">
+      <div class="card metric"><small>Completed Questions</small><strong id="completedMetric">0 / 15</strong></div>
+      <div class="card metric"><small>Average Current</small><strong id="currentMetric">—</strong></div>
+      <div class="card metric"><small>Average Target</small><strong id="targetMetric">—</strong></div>
+      <div class="card metric"><small>Highest Priority Gap</small><strong id="priorityMetric">—</strong></div>
+    </div>
+
+    <div class="card result-panel">
+      <h3>Capability scores (this respondent)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Capability</th><th>Current</th><th>Target</th><th>Priority</th></tr></thead>
+          <tbody id="dimensionResults"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card result-panel">
+      <h3>Top priority capability gaps (this respondent)</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Assessment question</th><th>Current</th><th>Target</th><th>Priority</th></tr></thead>
+          <tbody id="priorityResults"><tr><td colspan="5" style="color:var(--muted)">Complete ratings to generate priorities.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card result-panel">
+      <h3>Team comparison — combine everyone's responses</h3>
+      <p class="desc" style="margin-bottom:14px">Each respondent should use the <b>Export my response (JSON)</b> button above. Upload every teammate's exported file here to compute aggregate scores and check for disconnects between HQ Leadership and the field.</p>
+      <div id="uploadArea">
+        <input type="file" id="fileInput" accept="application/json" multiple />
+        <p style="margin:8px 0 0">Drop or select one or more exported .json response files</p>
+      </div>
+      <div id="loadedChips"></div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Capability</th><th>HQ Leadership</th><th>Regional Field Coordinator</th><th>Member NGO Leader</th><th>Max spread</th><th>Status</th></tr></thead>
+          <tbody id="divergenceResults"><tr><td colspan="6" style="color:var(--muted)">Upload responses to check for stakeholder divergence.</td></tr></tbody>
+        </table>
+      </div>
+      <p class="desc" style="margin-top:12px">A spread of ≥ 1.5 points between roles on the same capability is flagged as a <span class="pill pill-med">critical operational disconnect</span>.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer"><div class="container">OERA — Organizational Entrepreneurial Readiness Assessment</div></footer>
+
+<script>
+(function(){
+// ---- Model logic: 5 generic stages, each instantiated by one applied capability ----
+const flowStages = [
+  {n:"01", stage:"Direction", note:"Strategic intent and acceptable risk.", applied:"Anticipatory Innovation"},
+  {n:"02", stage:"Enable", note:"Leadership, culture, autonomy and resources.", applied:"Risk Tolerance & Psychological Safety"},
+  {n:"03", stage:"Discover", note:"Stakeholder needs, trends and opportunities.", applied:"Ecosystem Stability"},
+  {n:"04", stage:"Act", note:"Experiments, pilots and evidence-based decisions.", applied:"Scalability (\"Accordion\")"},
+  {n:"05", stage:"Learn & Scale", note:"Institutionalize what works and retain learning.", applied:"Knowledge Management"}
+];
+const flowGrid = document.getElementById('flowGrid');
+flowStages.forEach(s=>{
+  const el=document.createElement('div');
+  el.className='card flow-item';
+  el.innerHTML=`<small>${s.n}</small><b>${s.stage}</b><p>${s.note}</p><em>Applied as: ${s.applied}</em>`;
+  flowGrid.appendChild(el);
+});
+
+// ---- The five applied capabilities (ITC-specific evidence, generic model logic) ----
+const dims = [
+ {phase:"DIRECTION",title:"Anticipatory Innovation",desc:"Proactively designing post-crisis solutions versus purely reactive crisis response.",q:[
+ "Leadership proactively designs and funds scalable solutions for anticipated future surges, rather than solely reacting to immediate, survival-mode crises.",
+ "We dedicate time and resources to planning for future scenarios (e.g., post-ceasefire demand shifts) even while managing current crises.",
+ "Innovation initiatives are pursued proactively, not only triggered reactively by an emergency."
+ ]},
+ {phase:"ENABLE",title:"Risk Tolerance & Psychological Safety",desc:"Whether the organization can safely pilot and fail small — a precondition for any recommended change.",q:[
+ "Leadership treats unsuccessful pilot initiatives as valuable learning opportunities rather than professional failures.",
+ "Staff feel comfortable proposing and testing new ideas, even ones that might not work, without fear of professional repercussions.",
+ "There is a defined, low-risk process for piloting small-scale changes before committing to full implementation."
+ ]},
+ {phase:"DISCOVER",title:"Ecosystem Stability",desc:"Managing competitive shifts in funding and talent across the partner network.",q:[
+ "Our organization effectively maintains cooperative partnerships and avoids internal competition when faced with sudden shifts in donor funding and talent availability.",
+ "When funding surges suddenly, we coordinate with other member NGOs rather than competing independently for the same therapists.",
+ "We have a clear strategy for sustaining partner relationships during donor fatigue or funding scarcity."
+ ]},
+ {phase:"ACT",title:"Scalability (\"Accordion\")",desc:"Rapid IT/procedural deployment and wind-down during emergencies.",q:[
+ "When emergency needs require rapid expansion, our organization successfully deploys the necessary IT infrastructure and internal procedures to manage new staff without operational breakdown.",
+ "We have documented (not just informal/tribal-knowledge) procedures for onboarding new staff or volunteers during a crisis surge.",
+ "After a surge ends, we can scale back down without losing critical capacity or institutional knowledge."
+ ]},
+ {phase:"LEARN & SCALE",title:"Knowledge Management",desc:"Capturing and transferring specialized trauma training so it isn't lost as roles shift.",q:[
+ "Our organization systematically captures and transfers specialized training across different member NGOs.",
+ "When staff are reassigned to a new trauma specialization (e.g., domestic violence to war trauma), there is a formal process for transferring relevant expertise.",
+ "Lessons learned from past emergency responses are documented and accessible to staff who weren't directly involved."
+ ]}
+];
+const TOTAL_Q = dims.reduce((n,d)=>n+d.q.length,0);
+const ROLE_OPTIONS = ["HQ Leadership","Regional Field Coordinator","Member NGO Leader"];
+const STORAGE_KEY = "oeraItcRatingsV1";
+
+const cards = document.getElementById('dimensionCards');
+const body = document.getElementById('assessmentBody');
+const side = document.getElementById('sideLinks');
+
+function makeScale(name,type){
+  let html='<div class="scale">';
+  for(let i=1;i<=5;i++){
+    html += `<div class="score-option">
+      <input type="radio" name="${name}" id="${name}_${i}" value="${i}" data-type="${type}">
+      <label for="${name}_${i}" title="${i}">${i}</label>
+    </div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+dims.forEach((d,di)=>{
+  const card=document.createElement('div');
+  card.className='card dim-card';
+  card.innerHTML=`<small>${String(di+1).padStart(2,'0')} · ${d.phase}</small><strong>${d.title}</strong><p>${d.desc}</p>`;
+  cards.appendChild(card);
+
+  const link=document.createElement('a');
+  link.href=`#dim${di+1}`;
+  link.textContent=`${di+1}. ${d.title}`;
+  side.appendChild(link);
+
+  const details=document.createElement('details');
+  details.className='card dimension';
+  details.id=`dim${di+1}`;
+  if(di===0) details.open=true;
+
+  let qhtml='';
+  d.q.forEach((q,qi)=>{
+    const qid=`d${di+1}q${qi+1}`;
+    qhtml += `<div class="question" data-dim="${di}" data-q="${qi}" data-text="${q.replace(/"/g,'&quot;')}">
+      <div class="question-head">
+        <span class="qtag">ASSESSMENT QUESTION</span>
+        <h4>${di+1}.${qi+1} ${q}</h4>
+      </div>
+      <div class="rating-grid">
+        <div class="rating-block">
+          <div class="rating-title"><span>Current State</span><span>1–5</span></div>
+          <div class="rating-help">How accurately does this describe the organization today?</div>
+          ${makeScale(qid+'_c','current')}
+          <div class="legend"><span>1 · Not present</span><span>5 · Embedded</span></div>
+        </div>
+        <div class="rating-block">
+          <div class="rating-title"><span>Target State</span><span>1–5</span></div>
+          <div class="rating-help">How true does this need to be for the organization to operate well?</div>
+          ${makeScale(qid+'_t','target')}
+          <div class="legend"><span>1 · Low priority</span><span>5 · Critical</span></div>
+        </div>
+      </div>
+    </div>`;
+  });
+
+  details.innerHTML=`<summary>
+    <div class="dimension-title"><small>${String(di+1).padStart(2,'0')} · ${d.phase}</small><strong>${d.title}</strong><span>${d.desc}</span></div>
+    <div class="chev">›</div>
+  </summary><div class="questions">${qhtml}</div>`;
+  body.appendChild(details);
+});
+
+function selectedValue(name){
+  const el=document.querySelector(`input[name="${name}"]:checked`);
+  return el ? Number(el.value) : null;
+}
+
+function priorityClass(v){
+  if(v>=12) return ['High','pill-high'];
+  if(v>=6) return ['Medium','pill-med'];
+  return ['Lower','pill-low'];
+}
+
+function collectCurrentAnswers(){
+  const answers = {};
+  dims.forEach((d,di)=>{
+    d.q.forEach((_,qi)=>{
+      const base=`d${di+1}q${qi+1}`;
+      answers[base] = { current: selectedValue(base+'_c'), target: selectedValue(base+'_t') };
+    });
+  });
+  return answers;
+}
+
+function recalc(){
+  let completed=0, allC=[], allT=[], questionRows=[];
+  let dimRows=[];
+
+  dims.forEach((d,di)=>{
+    let dc=[], dt=[], dp=[];
+    d.q.forEach((q,qi)=>{
+      const base=`d${di+1}q${qi+1}`;
+      const c=selectedValue(base+'_c');
+      const t=selectedValue(base+'_t');
+      if(c!==null) allC.push(c);
+      if(t!==null) allT.push(t);
+      if(c!==null && t!==null){
+        completed++;
+        const p=t*(5-c);
+        dc.push(c); dt.push(t); dp.push(p);
+        questionRows.push({text:q,current:c,target:t,priority:p});
+      }
+    });
+    const avg=a=>a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+    dimRows.push({title:d.title,c:avg(dc),t:avg(dt),p:avg(dp)});
+  });
+
+  const pct=(completed/TOTAL_Q)*100;
+  document.getElementById('progressBar').style.width=pct+'%';
+  document.getElementById('progressText').textContent=`${completed} of ${TOTAL_Q} questions complete`;
+  document.getElementById('completedMetric').textContent=`${completed} / ${TOTAL_Q}`;
+
+  const avg=a=>a.length ? a.reduce((x,y)=>x+y,0)/a.length : null;
+  const ac=avg(allC), at=avg(allT);
+  document.getElementById('currentMetric').textContent=ac===null?'—':ac.toFixed(2);
+  document.getElementById('targetMetric').textContent=at===null?'—':at.toFixed(2);
+
+  questionRows.sort((a,b)=>b.priority-a.priority);
+  document.getElementById('priorityMetric').textContent=questionRows.length?questionRows[0].priority.toFixed(1):'—';
+
+  const dr=document.getElementById('dimensionResults');
+  dr.innerHTML='';
+  dimRows.forEach(r=>{
+    const tr=document.createElement('tr');
+    let cls=['—',''];
+    if(r.p!==null) cls=priorityClass(r.p);
+    tr.innerHTML=`<td><strong>${r.title}</strong></td>
+      <td>${r.c===null?'—':r.c.toFixed(2)}</td>
+      <td>${r.t===null?'—':r.t.toFixed(2)}</td>
+      <td>${r.p===null?'—':`<span class="pill ${cls[1]}">${r.p.toFixed(1)} · ${cls[0]}</span>`}</td>`;
+    dr.appendChild(tr);
+  });
+
+  const pr=document.getElementById('priorityResults');
+  if(!questionRows.length){
+    pr.innerHTML='<tr><td colspan="5" style="color:var(--muted)">Complete ratings to generate priorities.</td></tr>';
+  } else {
+    pr.innerHTML='';
+    questionRows.slice(0,7).forEach((r,idx)=>{
+      const cls=priorityClass(r.priority);
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td>${idx+1}</td><td>${r.text}</td><td>${r.current}</td><td>${r.target}</td><td><span class="pill ${cls[1]}">${r.priority.toFixed(1)} · ${cls[0]}</span></td>`;
+      pr.appendChild(tr);
+    });
+  }
+
+  saveState();
+}
+
+function saveState(){
+  try{
+    const data={};
+    document.querySelectorAll('input[type="radio"]:checked').forEach(x=>data[x.name]=x.value);
+    data.__name = document.getElementById('rName').value;
+    data.__role = document.getElementById('rRole').value;
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    Object.entries(data).forEach(([name,val])=>{
+      if(name==='__name'){ document.getElementById('rName').value = val || ''; return; }
+      if(name==='__role'){ document.getElementById('rRole').value = val || ROLE_OPTIONS[0]; return; }
+      const x=document.querySelector(`input[name="${name}"][value="${val}"]`);
+      if(x) x.checked=true;
+    });
+  }catch(e){}
+}
+
+document.addEventListener('change',function(e){
+  if(e.target.matches('input[type="radio"]')) recalc();
+  if(e.target.id==='rName' || e.target.id==='rRole') saveState();
+});
+
+document.getElementById('openAllBtn').addEventListener('click',()=>document.querySelectorAll('details.dimension').forEach(d=>d.open=true));
+document.getElementById('closeAllBtn').addEventListener('click',()=>document.querySelectorAll('details.dimension').forEach(d=>d.open=false));
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  if(confirm('Reset all ratings?')){
+    document.querySelectorAll('input[type="radio"]').forEach(x=>x.checked=false);
+    try{localStorage.removeItem(STORAGE_KEY)}catch(e){}
+    recalc();
+  }
+});
+
+document.getElementById('csvBtn').addEventListener('click',()=>{
+  const rows=[['Capability','Question','Current','Target','Priority']];
+  dims.forEach((d,di)=>{
+    d.q.forEach((q,qi)=>{
+      const base=`d${di+1}q${qi+1}`;
+      const c=selectedValue(base+'_c');
+      const t=selectedValue(base+'_t');
+      const p=(c!==null&&t!==null)?t*(5-c):'';
+      rows.push([d.title,q,c??'',t??'',p]);
+    });
+  });
+  const csv=rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='OERA_ITC_Assessment_Results.csv';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+
+document.getElementById('jsonBtn').addEventListener('click',()=>{
+  const submission = {
+    respondent: {
+      name: document.getElementById('rName').value || '(anonymous)',
+      role: document.getElementById('rRole').value,
+      date: new Date().toISOString().slice(0,10)
+    },
+    answers: collectCurrentAnswers()
+  };
+  const answered = Object.values(submission.answers).filter(a=>a.current && a.target).length;
+  if(answered===0){ alert('Please answer at least one question before exporting.'); return; }
+  const blob = new Blob([JSON.stringify(submission,null,2)],{type:'application/json'});
+  const safeName = (submission.respondent.name||'anon').replace(/[^a-z0-9]/gi,'_');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`oera-response-${safeName}-${submission.respondent.date}.json`;
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+});
+
+// ---- Team comparison: upload teammates' exported JSON, compute divergence ----
+let uploadedSubmissions = [];
+
+document.getElementById('fileInput').addEventListener('change',(e)=>{
+  const files=Array.from(e.target.files);
+  let pending=files.length;
+  if(!pending) return;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=()=>{
+      try{
+        const data=JSON.parse(reader.result);
+        uploadedSubmissions.push({...data,_source:file.name});
+      }catch(err){
+        alert(`Could not parse ${file.name} — is it a valid exported response file?`);
+      }
+      pending--;
+      if(pending===0) renderDivergence();
+    };
+    reader.readAsText(file);
+  });
+});
+
+function renderDivergence(){
+  const chipsDiv=document.getElementById('loadedChips');
+  chipsDiv.innerHTML = uploadedSubmissions.length
+    ? uploadedSubmissions.map(s=>`<span class="chip">${s.respondent?.name||'anon'} · ${s.respondent?.role||'?'}</span>`).join('')
+    : '';
+
+  const tbody=document.getElementById('divergenceResults');
+  if(!uploadedSubmissions.length){
+    tbody.innerHTML='<tr><td colspan="6" style="color:var(--muted)">Upload responses to check for stakeholder divergence.</td></tr>';
+    return;
+  }
+
+  const rows = dims.map((d,di)=>{
+    const byRole = {};
+    ROLE_OPTIONS.forEach(r=>byRole[r]={sum:0,n:0});
+    uploadedSubmissions.forEach(sub=>{
+      d.q.forEach((_,qi)=>{
+        const base=`d${di+1}q${qi+1}`;
+        const a=sub.answers?.[base];
+        const role=sub.respondent?.role;
+        if(a?.current && byRole[role]){ byRole[role].sum+=a.current; byRole[role].n++; }
+      });
+    });
+    const roleAvg={};
+    ROLE_OPTIONS.forEach(r=>{ roleAvg[r]= byRole[r].n ? byRole[r].sum/byRole[r].n : null; });
+    const valid=Object.values(roleAvg).filter(v=>v!==null);
+    const spread = valid.length>=2 ? Math.max(...valid)-Math.min(...valid) : null;
+    return {title:d.title, roleAvg, spread};
+  });
+
+  tbody.innerHTML = rows.map(r=>{
+    const flagged = r.spread!==null && r.spread>=1.5;
+    const tag = r.spread===null
+      ? `<span class="pill" style="background:#f1f3f6;color:var(--muted)">insufficient data</span>`
+      : flagged
+        ? `<span class="pill pill-med">disconnect</span>`
+        : `<span class="pill pill-low">aligned</span>`;
+    return `<tr>
+      <td><strong>${r.title}</strong></td>
+      <td>${r.roleAvg["HQ Leadership"]!==null ? r.roleAvg["HQ Leadership"].toFixed(1) : '—'}</td>
+      <td>${r.roleAvg["Regional Field Coordinator"]!==null ? r.roleAvg["Regional Field Coordinator"].toFixed(1) : '—'}</td>
+      <td>${r.roleAvg["Member NGO Leader"]!==null ? r.roleAvg["Member NGO Leader"].toFixed(1) : '—'}</td>
+      <td>${r.spread!==null ? r.spread.toFixed(1) : '—'}</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join('');
+}
+
+loadState();
+recalc();
+renderDivergence();
+})();
+</script>
+</body>
+</html>

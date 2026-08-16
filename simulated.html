@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ITC × OERA — Simulated Multi-Level Survey</title>
+<style>
+:root{
+  --bg:#f5f7fb; --paper:#fff; --navy:#17324d; --blue:#2f6f9e; --ink:#1f2937;
+  --muted:#667085; --line:#d9e2ec; --soft:#eef5f8; --accent:#7fb4c7;
+  --danger:#d96b6b; --warn:#e0b95f; --good:#76b58f; --shadow:0 14px 40px rgba(23,50,77,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(180deg,#fbfcfe 0%,var(--bg) 100%);color:var(--ink)
+}
+.container{width:min(1200px,calc(100% - 32px));margin:auto}
+.topbar{position:sticky;top:0;z-index:40;background:rgba(251,252,254,.93);backdrop-filter:blur(12px);border-bottom:1px solid rgba(217,226,236,.9)}
+.topbar-inner{height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:900;color:var(--navy)}
+.mark{width:38px;height:38px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--blue));display:grid;place-items:center;color:white}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav button{border:1px solid transparent;background:transparent;color:var(--muted);padding:9px 12px;border-radius:10px;font:inherit;font-weight:750;cursor:pointer}
+.nav button.active{background:#fff;color:var(--navy);border-color:var(--line)}
+.hero{padding:60px 0 26px}
+.badge{display:inline-flex;padding:7px 10px;border-radius:999px;background:var(--soft);color:var(--blue);font-size:12px;font-weight:900;letter-spacing:.07em}
+.warning{display:inline-flex;padding:7px 10px;border-radius:999px;background:#fff5da;color:#72570c;font-size:12px;font-weight:900;letter-spacing:.05em;border:1px solid #ead18b}
+h1{font-size:clamp(38px,6vw,68px);line-height:.98;letter-spacing:-.04em;color:var(--navy);margin:14px 0}
+.hero p{font-size:18px;color:var(--muted);line-height:1.65;max-width:900px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:26px;align-items:center}
+.hero-card{background:linear-gradient(155deg,var(--navy),#244d70);color:white;border-radius:24px;padding:26px;box-shadow:var(--shadow)}
+.hero-card small{opacity:.7;font-weight:800;letter-spacing:.08em}
+.hero-card h3{font-size:24px;line-height:1.4;margin:10px 0 0}
+.section{padding:34px 0 48px}
+.panel{display:none}
+.panel.active{display:block}
+.grid{display:grid;gap:14px}
+.metrics{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:20px;box-shadow:0 7px 26px rgba(23,50,77,.05)}
+.metric{padding:18px}
+.metric small{display:block;color:var(--muted);font-weight:800}
+.metric strong{display:block;color:var(--navy);font-size:30px;margin-top:5px}
+.metric span{display:block;color:var(--muted);font-size:13px;margin-top:4px}
+.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:18px}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:.12em;color:var(--blue);text-transform:uppercase}
+h2{color:var(--navy);font-size:30px;letter-spacing:-.02em;margin:5px 0 0}
+.desc{color:var(--muted);max-width:740px;line-height:1.6}
+.bar-row{margin-bottom:14px}
+.bar-label{display:flex;justify-content:space-between;gap:12px;font-size:14px;margin-bottom:6px}
+.bar-label b{color:var(--navy)}
+.bar-track{height:11px;background:#e9eff4;border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:999px}
+.two-col{grid-template-columns:1fr 1fr}
+.callout{padding:20px;border-radius:18px;background:#fff;border:1px solid var(--line);box-shadow:0 6px 22px rgba(23,50,77,.04)}
+.callout strong{color:var(--navy)}
+.callout p{color:var(--muted);line-height:1.6;margin:7px 0 0}
+.group-grid{grid-template-columns:repeat(4,1fr)}
+.group-card{padding:18px}
+.group-card small{display:block;color:var(--muted);font-weight:800}
+.group-card strong{display:block;color:var(--navy);font-size:20px;margin:6px 0}
+.group-card span{color:var(--muted);font-size:13px}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin-bottom:16px}
+label{font-size:13px;font-weight:800;color:var(--muted)}
+select{display:block;margin-top:6px;border:1px solid var(--line);background:white;border-radius:11px;padding:10px 12px;font:inherit;color:var(--ink)}
+.respondent-grid{grid-template-columns:repeat(2,1fr)}
+.respondent{padding:18px;cursor:pointer;transition:.16s}
+.respondent:hover{transform:translateY(-1px);border-color:#b9cad8}
+.respondent-top{display:flex;justify-content:space-between;gap:14px}
+.respondent h3{margin:8px 0 4px;color:var(--navy);font-size:18px}
+.respondent p{margin:0;color:var(--muted);font-size:13px}
+.score{text-align:right}
+.score small{color:var(--muted);display:block}
+.score strong{color:var(--navy);font-size:22px}
+.detail{margin-top:18px;padding-top:18px;border-top:1px solid var(--line)}
+details{border:1px solid var(--line);border-radius:16px;background:white;margin-bottom:12px}
+summary{cursor:pointer;padding:16px 18px;font-weight:850;color:var(--navy)}
+.questions{padding:0 16px 16px}
+.q{border:1px solid var(--line);border-radius:13px;padding:13px;background:#fbfdff;margin-top:9px}
+.q.high{border-left:4px solid var(--danger)}
+.q-title{font-size:14px;font-weight:750;color:var(--navy);line-height:1.45}
+.pills{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+.pill{display:inline-flex;padding:5px 8px;border-radius:999px;background:var(--soft);color:var(--blue);font-size:12px;font-weight:850}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:11px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{background:#f8fafc;color:var(--navy)}
+.table-card{overflow:auto}
+.priority-high{color:#8a3434;font-weight:900}
+.priority-med{color:#75580e;font-weight:900}
+.priority-low{color:#326a47;font-weight:900}
+.gap-row{padding:17px;margin-bottom:12px}
+.gap-top{display:flex;justify-content:space-between;gap:14px}
+.gap-bars{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:13px}
+.note{padding:18px 20px;background:#fff9e8;border:1px solid #edd89b;color:#5f4a13;border-radius:16px;line-height:1.6}
+.footer{padding:36px 0 54px;color:var(--muted);font-size:13px}
+@media(max-width:940px){
+  .hero-grid{grid-template-columns:1fr}.metrics,.group-grid{grid-template-columns:1fr 1fr}.respondent-grid{grid-template-columns:1fr}
+}
+@media(max-width:680px){
+  .nav{display:none}.metrics,.group-grid,.two-col,.gap-bars{grid-template-columns:1fr}.section-head{display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand"><div class="mark">O</div>ITC × OERA — Simulated Preview</div>
+    <nav class="nav">
+      <button class="tab active" data-target="overview">Overview</button>
+      <button class="tab" data-target="respondents">Respondents</button>
+      <button class="tab" data-target="questions">28 Questions</button>
+      <button class="tab" data-target="gaps">Role Gaps</button>
+      <a href="index.html" style="border-left:1px solid var(--line);padding-left:12px;margin-left:4px;color:var(--muted);font-weight:750;padding-top:9px;padding-bottom:9px">← All tools</a>
+      <a href="live.html" style="color:var(--muted);font-weight:750;padding-top:9px;padding-bottom:9px">Live Assessment →</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="badge">ORGANIZATIONAL ENTREPRENEURIAL READINESS ASSESSMENT</span>
+        <span class="warning">SIMULATED RESPONSES</span>
+      </div>
+      <h1>ITC multi-level readiness profile</h1>
+      <p>This standalone site demonstrates how ITC's OERA results could look after a multi-level organizational survey. It uses 12 synthetic respondent personas across executive, program, field and operations layers.</p>
+    </div>
+    <aside class="hero-card">
+      <small>IMPORTANT</small>
+      <h3>The respondent ratings are desk-research hypotheses for presentation purposes. They are not actual answers provided by ITC staff.</h3>
+    </aside>
+  </div>
+</section>
+
+<main class="container">
+
+<section id="overview" class="section panel active">
+  <div class="section-head">
+    <div><div class="eyebrow">01 · OVERVIEW</div><h2>Simulated organizational profile</h2></div>
+    <div class="desc">The output emphasizes the pattern across roles rather than only one overall score.</div>
+  </div>
+
+  <div class="grid metrics" id="metrics"></div>
+
+  <div class="card" style="padding:20px;margin-top:16px">
+    <h3 style="margin:0 0 16px;color:var(--navy)">OERA maturity by dimension</h3>
+    <div id="dimensionBars"></div>
+  </div>
+
+  <div class="grid two-col" style="margin-top:16px">
+    <div class="callout">
+      <strong>Strongest organizational signal</strong>
+      <p><b>Opportunity Sensing & Ecosystem.</b> The simulated respondents consistently rate ITC's ability to understand needs, mobilize partners and detect emerging challenges as a major strength.</p>
+    </div>
+    <div class="callout">
+      <strong>Primary bottleneck</strong>
+      <p><b>Experimentation & Execution.</b> The pattern suggests ITC may be better at sensing and mobilizing than at running a standardized idea → pilot → KPI → decision process.</p>
+    </div>
+  </div>
+
+  <div class="section-head" style="margin-top:28px">
+    <div><div class="eyebrow">ORGANIZATIONAL LAYERS</div><h2 style="font-size:24px">Who is represented?</h2></div>
+  </div>
+  <div class="grid group-grid" id="groupSummary"></div>
+</section>
+
+<section id="respondents" class="section panel">
+  <div class="section-head">
+    <div><div class="eyebrow">02 · RESPONDENTS</div><h2>12 simulated completed surveys</h2></div>
+    <div class="desc">Select a respondent to inspect the full 28-question synthetic profile.</div>
+  </div>
+
+  <div class="controls">
+    <label>Filter by organizational layer
+      <select id="groupFilter">
+        <option value="All">All respondents</option>
+        <option value="Executive">Executive leadership</option>
+        <option value="Program">Program & functional leads</option>
+        <option value="Field">Regional & field leadership</option>
+        <option value="Support">Operations & support</option>
+      </select>
+    </label>
+  </div>
+  <div class="grid respondent-grid" id="respondentGrid"></div>
+  <div id="respondentDetail" class="detail" style="display:none"></div>
+</section>
+
+<section id="questions" class="section panel">
+  <div class="section-head">
+    <div><div class="eyebrow">03 · 28 QUESTIONS</div><h2>Aggregated question-level results</h2></div>
+    <div class="desc">Every row below is an OERA assessment question. Priority = Importance × (5 − Maturity).</div>
+  </div>
+  <div id="questionTables"></div>
+</section>
+
+<section id="gaps" class="section panel">
+  <div class="section-head">
+    <div><div class="eyebrow">04 · ROLE GAPS</div><h2>Executive vs. field perception gaps</h2></div>
+    <div class="desc">Perception gaps are treated as organizational findings in their own right.</div>
+  </div>
+  <div id="gapRows"></div>
+  <div class="note" style="margin-top:18px"><b>Validation target:</b> the simulation intentionally creates a moderate leadership–field gap around autonomy, experimentation resources and clarity of the innovation process. These should be tested in real interviews rather than presented as facts.</div>
+</section>
+
+</main>
+
+<footer class="footer"><div class="container">ITC × OERA · Standalone simulation site</div></footer>
+
+<script>
+const dimensions=[
+{phase:'DIRECTION',name:'Strategic Intent & Risk Appetite',questions:[
+"Innovation priorities are clearly linked to the organization’s strategy and mission.",
+"The organization has clearly defined areas in which it actively seeks new opportunities.",
+"Employees understand what level of risk and experimentation is acceptable.",
+"Innovation initiatives are protected from being displaced by short-term operational priorities."
+]},
+{phase:'ENABLE',name:'Leadership, Governance & Autonomy',questions:[
+"Senior leaders actively sponsor and champion new initiatives.",
+"Employees have sufficient autonomy to initiate and test new ideas.",
+"Decision rights for innovation initiatives are clear.",
+"Approval processes are proportional to the cost and risk of the experiment."
+]},
+{phase:'ENABLE',name:'Culture & People',questions:[
+"Employees feel safe proposing unconventional ideas or challenging existing practices.",
+"Failed experiments are treated as learning opportunities when conducted responsibly.",
+"Teams collaborate effectively across organizational boundaries.",
+"Employees are given opportunities to develop entrepreneurial and innovation-related skills."
+]},
+{phase:'DISCOVER',name:'Opportunity Sensing & Ecosystem',questions:[
+"The organization systematically gathers information about stakeholder and user needs.",
+"The organization actively scans external trends, technologies, regulations and practices.",
+"Insights from stakeholders and the external environment are translated into identifiable opportunities.",
+"The organization effectively uses external partners to develop or test new approaches."
+]},
+{phase:'ENABLE',name:'Resources, Data & Infrastructure',questions:[
+"Teams can access small amounts of funding and time for early-stage experiments.",
+"Teams have access to the data needed to evaluate new ideas.",
+"The organization provides tools and processes that support rapid testing and prototyping.",
+"Internal or external expertise can be mobilized quickly when a new opportunity arises."
+]},
+{phase:'ACT',name:'Experimentation & Execution',questions:[
+"Ideas move through a clear process from opportunity identification to experimentation.",
+"New ideas are tested through small-scale experiments or pilots before full implementation.",
+"Success criteria are defined before experiments begin.",
+"The organization is willing to stop, modify or scale initiatives based on evidence."
+]},
+{phase:'LEARN & SCALE',name:'Learning, Scaling & Institutionalization',questions:[
+"Lessons from experiments and projects are systematically captured.",
+"Successful pilots have a clear pathway toward broader implementation.",
+"Successful initiatives receive ownership, resources and processes within regular operations.",
+"The organization evaluates whether innovations continue to create value after implementation."
+]}];
+
+const respondents=[
+{id:'R01',group:'Executive',role:'CEO-level',level:'Executive leadership',base:[4.4,4.2,4.3,4.8,3.8,3.6,4.4],importance:[4.8,4.8,4.5,4.8,4.8,5.0,4.8]},
+{id:'R02',group:'Executive',role:'Director of Content & Programs',level:'Executive / senior professional leadership',base:[4.2,4.0,4.3,4.8,3.7,3.5,4.4],importance:[4.8,4.8,4.7,4.8,4.8,5.0,4.9]},
+{id:'R03',group:'Executive',role:'CFO / senior finance leadership',level:'Executive / functional leadership',base:[3.8,3.8,3.8,4.2,3.3,2.9,3.8],importance:[4.4,4.5,4.1,4.3,4.9,4.8,4.6]},
+{id:'R04',group:'Program',role:'Content & Partnerships Manager',level:'Program leadership',base:[4.0,3.6,4.2,4.8,3.4,3.2,4.1],importance:[4.7,4.7,4.5,5.0,4.8,5.0,4.8]},
+{id:'R05',group:'Program',role:'National Project Manager',level:'Program / project leadership',base:[3.7,3.4,4.0,4.6,3.1,2.9,3.9],importance:[4.7,4.8,4.6,4.9,4.9,5.0,4.9]},
+{id:'R06',group:'Program',role:'Director of International Training',level:'Functional leadership',base:[4.0,3.7,4.3,4.8,3.5,3.3,4.2],importance:[4.5,4.5,4.5,5.0,4.6,4.8,4.8]},
+{id:'R07',group:'Program',role:'Resource Development Manager',level:'Functional leadership',base:[3.8,3.5,3.7,4.3,3.0,2.8,3.7],importance:[4.4,4.5,4.2,4.6,4.9,4.8,4.5]},
+{id:'R08',group:'Field',role:'North Regional Manager',level:'Regional leadership',base:[3.4,3.1,4.0,4.7,3.0,2.8,3.8],importance:[4.6,4.9,4.7,5.0,5.0,5.0,4.9]},
+{id:'R09',group:'Field',role:'Southern Resilience Centers Director',level:'Regional leadership',base:[3.6,3.2,4.2,4.8,3.1,3.0,4.0],importance:[4.7,4.9,4.8,5.0,5.0,5.0,5.0]},
+{id:'R10',group:'Field',role:'National Resilience Center Director',level:'Service / field leadership',base:[3.5,3.0,4.1,4.6,3.0,2.9,3.9],importance:[4.7,5.0,4.8,5.0,5.0,5.0,5.0]},
+{id:'R11',group:'Field',role:'Local Resilience Center Director',level:'Frontline management',base:[3.3,2.9,4.0,4.7,2.8,2.7,3.7],importance:[4.8,5.0,4.8,5.0,5.0,5.0,5.0]},
+{id:'R12',group:'Support',role:'Office / Operations Manager',level:'Operations & support',base:[3.3,3.0,3.9,4.1,3.2,2.9,3.6],importance:[4.2,4.5,4.4,4.4,4.7,4.7,4.5]}];
+
+const groupLabels={Executive:'Executive leadership',Program:'Program & functional leads',Field:'Regional & field leadership',Support:'Operations & support'};
+const offsets=[-.15,.10,-.05,.10];
+const clamp=v=>Math.max(1,Math.min(5,Math.round(v*10)/10));
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+
+function qScore(r,di,qi,type){
+ let v=(type==='m'?r.base[di]:r.importance[di])+offsets[qi];
+ if(type==='m'&&di===1&&qi===1){if(r.group==='Executive')v+=.25;if(r.group==='Field')v-=.35}
+ if(type==='m'&&di===4&&qi===0){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
+ if(type==='m'&&di===5&&qi===2){if(r.group==='Executive')v+=.15;if(r.group==='Field')v-=.25}
+ if(type==='m'&&di===3&&qi===3)v+=.15;
+ return clamp(v)
+}
+function dimAvg(rs,di,type='m'){
+ const vals=[];rs.forEach(r=>dimensions[di].questions.forEach((_,qi)=>vals.push(qScore(r,di,qi,type))));return avg(vals)
+}
+function overall(rs){return avg(dimensions.map((_,di)=>dimAvg(rs,di,'m')))}
+function priority(m,i){return i*(5-m)}
+function pclass(v){return v>=10?'priority-high':v>=6?'priority-med':'priority-low'}
+
+function renderOverview(){
+ const all=overall(respondents), sens=dimAvg(respondents,3), exp=dimAvg(respondents,5);
+ document.getElementById('metrics').innerHTML=[
+  ['Respondents','12','Across 4 organizational layers'],
+  ['Overall maturity',all.toFixed(2)+' / 5','Synthetic OERA average'],
+  ['Strongest dimension',sens.toFixed(2)+' / 5','Opportunity Sensing'],
+  ['Main bottleneck',exp.toFixed(2)+' / 5','Experimentation & Execution']
+ ].map(x=>`<div class="card metric"><small>${x[0]}</small><strong>${x[1]}</strong><span>${x[2]}</span></div>`).join('');
+
+ document.getElementById('dimensionBars').innerHTML=dimensions.map((d,di)=>{
+  const v=dimAvg(respondents,di);
+  return `<div class="bar-row"><div class="bar-label"><span>${d.name}</span><b>${v.toFixed(2)}</b></div><div class="bar-track"><div class="bar-fill" style="width:${v/5*100}%"></div></div></div>`
+ }).join('');
+
+ document.getElementById('groupSummary').innerHTML=['Executive','Program','Field','Support'].map(g=>{
+  const rs=respondents.filter(r=>r.group===g);
+  return `<div class="card group-card"><small>${groupLabels[g]}</small><strong>${rs.length} respondents</strong><span>Maturity ${overall(rs).toFixed(2)} / 5</span></div>`
+ }).join('')
+}
+
+function renderRespondents(){
+ const f=document.getElementById('groupFilter').value;
+ const rs=f==='All'?respondents:respondents.filter(r=>r.group===f);
+ document.getElementById('respondentGrid').innerHTML=rs.map(r=>`
+  <div class="card respondent" data-id="${r.id}">
+    <div class="respondent-top">
+      <div><span class="badge">${r.id}</span><h3>${r.role}</h3><p>${r.level}</p></div>
+      <div class="score"><small>Maturity</small><strong>${overall([r]).toFixed(2)}</strong></div>
+    </div>
+  </div>`).join('');
+ document.querySelectorAll('.respondent').forEach(el=>el.onclick=()=>showRespondent(el.dataset.id))
+}
+
+function showRespondent(id){
+ const r=respondents.find(x=>x.id===id), box=document.getElementById('respondentDetail');
+ let html=`<div class="section-head"><div><span class="warning">SIMULATED COMPLETED SURVEY</span><h2 style="font-size:24px;margin-top:8px">${r.role}</h2><div class="desc">${r.level}</div></div><div class="score"><small>Overall maturity</small><strong>${overall([r]).toFixed(2)} / 5</strong></div></div>`;
+ dimensions.forEach((d,di)=>{
+  html+=`<details ${di===0?'open':''}><summary>${di+1}. ${d.name} · ${dimAvg([r],di).toFixed(2)}</summary><div class="questions">`;
+  d.questions.forEach((q,qi)=>{
+    const m=qScore(r,di,qi,'m'), i=qScore(r,di,qi,'i'), p=priority(m,i);
+    html+=`<div class="q ${p>=10?'high':''}"><div class="q-title">${di+1}.${qi+1} ${q}</div><div class="pills"><span class="pill">Maturity ${m.toFixed(1)}</span><span class="pill">Importance ${i.toFixed(1)}</span><span class="pill">Priority ${p.toFixed(1)}</span></div></div>`
+  });
+  html+=`</div></details>`
+ });
+ box.innerHTML=html;box.style.display='block';box.scrollIntoView({behavior:'smooth',block:'start'})
+}
+
+function renderQuestions(){
+ let out='';
+ dimensions.forEach((d,di)=>{
+  out+=`<div class="card table-card" style="margin-bottom:16px"><div style="padding:16px 18px"><span class="badge">${d.phase}</span><h3 style="margin:8px 0 0;color:var(--navy)">${di+1}. ${d.name}</h3></div><table><thead><tr><th>Question</th><th>Maturity</th><th>Importance</th><th>Priority</th></tr></thead><tbody>`;
+  d.questions.forEach((q,qi)=>{
+   const m=avg(respondents.map(r=>qScore(r,di,qi,'m'))), i=avg(respondents.map(r=>qScore(r,di,qi,'i'))), p=priority(m,i);
+   out+=`<tr><td><b>${di+1}.${qi+1}</b> ${q}</td><td>${m.toFixed(2)}</td><td>${i.toFixed(2)}</td><td class="${pclass(p)}">${p.toFixed(1)}</td></tr>`
+  });
+  out+='</tbody></table></div>'
+ });
+ document.getElementById('questionTables').innerHTML=out
+}
+
+function renderGaps(){
+ const exec=respondents.filter(r=>r.group==='Executive'), field=respondents.filter(r=>r.group==='Field');
+ const rows=[];
+ dimensions.forEach((d,di)=>d.questions.forEach((q,qi)=>{
+  const e=avg(exec.map(r=>qScore(r,di,qi,'m'))), f=avg(field.map(r=>qScore(r,di,qi,'m')));
+  rows.push({q,di,qi,e,f,g:e-f})
+ }));
+ rows.sort((a,b)=>Math.abs(b.g)-Math.abs(a.g));
+ document.getElementById('gapRows').innerHTML=rows.slice(0,8).map((x,idx)=>`
+   <div class="card gap-row">
+     <div class="gap-top"><div><span class="badge">#${idx+1} · Q${x.di+1}.${x.qi+1}</span><div style="margin-top:8px;font-weight:800;color:var(--navy)">${x.q}</div></div><div class="score"><small>Gap</small><strong>${x.g>0?'+':''}${x.g.toFixed(2)}</strong></div></div>
+     <div class="gap-bars">
+       <div><div class="bar-label"><span>Executive</span><b>${x.e.toFixed(2)}</b></div><div class="bar-track"><div class="bar-fill" style="width:${x.e/5*100}%"></div></div></div>
+       <div><div class="bar-label"><span>Field</span><b>${x.f.toFixed(2)}</b></div><div class="bar-track"><div class="bar-fill" style="width:${x.f/5*100}%"></div></div></div>
+     </div>
+   </div>`).join('')
+}
+
+document.querySelectorAll('.tab').forEach(btn=>btn.onclick=()=>{
+ document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');
+ document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+ document.getElementById(btn.dataset.target).classList.add('active');
+ window.scrollTo({top:0,behavior:'smooth'})
+});
+document.getElementById('groupFilter').onchange=renderRespondents;
+
+renderOverview();renderRespondents();renderQuestions();renderGaps();
+</script>
+</body>
+</html>
