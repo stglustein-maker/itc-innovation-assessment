@@ -1,0 +1,598 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ITC Innovation Assessment</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f6f7fb;
+    --panel: #ffffff;
+    --text: #1c1f2b;
+    --muted: #5c6270;
+    --accent: #3d3aad;
+    --accent-soft: #eceafc;
+    --border: #e1e3ec;
+    --good: #1f9d55;
+    --warn: #d9822b;
+    --bad: #d64545;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header {
+    background: var(--accent);
+    color: #fff;
+    padding: 1.5rem 1.25rem;
+  }
+  header h1 { margin: 0 0 0.25rem; font-size: 1.4rem; }
+  header p { margin: 0; opacity: 0.9; font-size: 0.95rem; }
+  nav {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav button {
+    border: 1px solid var(--border);
+    background: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+  nav button.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.25rem;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .panel h2 { margin-top: 0; font-size: 1.1rem; }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  label { display: block; font-size: 0.85rem; color: var(--muted); margin-bottom: 0.25rem; }
+  input[type=text], select, input[type=date] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+  .dimension-block { margin-bottom: 1.5rem; }
+  .dimension-block h3 {
+    font-size: 1rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+  }
+  .question {
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 0;
+  }
+  .question:last-child { border-bottom: none; }
+  .question p.qtext { margin: 0 0 0.6rem; font-size: 0.95rem; }
+  .rating-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; flex-wrap: wrap; }
+  .rating-row .rlabel { width: 70px; font-size: 0.8rem; color: var(--muted); flex-shrink: 0; }
+  .scale { display: flex; gap: 0.35rem; }
+  .scale label {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--text);
+    background: #fff;
+  }
+  .scale input { display: none; }
+  .scale input:checked + label {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+  .btn.secondary {
+    background: #fff;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+  }
+  .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  #saveMsg { font-size: 0.85rem; color: var(--good); margin-top: 0.5rem; display: none; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; }
+  .tag {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+  .tag.barrier { background: #fbe4e4; color: var(--bad); }
+  .tag.ok { background: #e4f6ea; color: var(--good); }
+  .tag.divergence { background: #fdeedb; color: var(--warn); }
+  .muted { color: var(--muted); font-size: 0.85rem; }
+  #uploadArea {
+    border: 2px dashed var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--accent-soft);
+    color: var(--accent);
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    margin: 0.15rem;
+  }
+  .chip button {
+    border: none;
+    background: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: bold;
+  }
+  canvas { max-width: 100%; }
+  footer { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.8rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ITC Innovation Assessment</h1>
+  <p>A tailored innovation &amp; change-capacity model for Israel Trauma Coalition — Organizational Innovation, RUNI MBA</p>
+</header>
+
+<nav>
+  <button id="tabSurveyBtn" class="active">Take Assessment</button>
+  <button id="tabResultsBtn">View Results &amp; Compare</button>
+</nav>
+
+<main>
+
+  <!-- SURVEY TAB -->
+  <section id="surveyTab">
+    <div class="panel">
+      <h2>Respondent Info</h2>
+      <div class="field-row">
+        <div>
+          <label for="rName">Name (optional)</label>
+          <input type="text" id="rName" placeholder="e.g. Talia L." />
+        </div>
+        <div>
+          <label for="rRole">Role</label>
+          <select id="rRole">
+            <option value="HQ Leadership">HQ Leadership</option>
+            <option value="Regional Field Coordinator">Regional Field Coordinator</option>
+            <option value="Member NGO Leader">Member NGO Leader</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="muted" style="margin-top:0">
+        For every statement, rate two things: <strong>Current state</strong> (how true this is today) and
+        <strong>Target state</strong> (how true it needs to be for ITC to operate well). 1 = Strongly Disagree, 5 = Strongly Agree.
+      </p>
+      <div id="questionsContainer"></div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" id="submitBtn">Save &amp; Export My Response</button>
+      <button class="btn secondary" id="clearBtn">Clear Form</button>
+    </div>
+    <div id="saveMsg">✓ Response saved locally and downloaded as a JSON file. Send that file to your Evidence Lead / teammate compiling results.</div>
+  </section>
+
+  <!-- RESULTS TAB -->
+  <section id="resultsTab" style="display:none">
+    <div class="panel">
+      <h2>Load Responses</h2>
+      <p class="muted">Responses saved on this device load automatically. To combine your whole team's answers, upload each teammate's exported JSON file below.</p>
+      <div id="uploadArea">
+        <input type="file" id="fileInput" accept="application/json" multiple />
+        <p class="muted" style="margin-bottom:0">Drop or select one or more exported .json response files</p>
+      </div>
+      <div id="loadedChips"></div>
+      <div class="btn-row">
+        <button class="btn secondary" id="resetLocalBtn">Clear locally-saved responses</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Current vs. Target — by Dimension</h2>
+      <canvas id="radarChart" height="280"></canvas>
+    </div>
+
+    <div class="panel">
+      <h2>Dimension Scoring</h2>
+      <table id="scoreTable">
+        <thead>
+          <tr><th>Dimension</th><th>Avg Current</th><th>Avg Target</th><th>Gap</th><th>Status</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted">Flagged as <span class="tag barrier">innovation barrier</span> when average Current &lt; 3.0 or the Current→Target gap is ≥ 1.5.</p>
+    </div>
+
+    <div class="panel">
+      <h2>Stakeholder Divergence (HQ vs. Field)</h2>
+      <table id="divergenceTable">
+        <thead>
+          <tr><th>Dimension</th><th>HQ Leadership</th><th>Regional Field Coordinator</th><th>Member NGO Leader</th><th>Max spread</th><th>Status</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p class="muted">A spread of ≥ 1.5 points between roles on the same dimension is flagged as a <span class="tag divergence">critical operational disconnect</span> — this is often the most useful finding for Part II.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Built for the ITC organizational innovation assessment — data stays in your browser and in files you export/share yourselves; nothing is sent to a server.
+</footer>
+
+<script>
+const DIMENSIONS = [
+  {
+    key: "ecosystem",
+    name: "Ecosystem Stability",
+    questions: [
+      "Our organization effectively maintains cooperative partnerships and avoids internal competition when faced with sudden shifts in donor funding and talent availability.",
+      "When funding surges suddenly, we coordinate with other member NGOs rather than competing independently for the same therapists.",
+      "We have a clear strategy for sustaining partner relationships during donor fatigue or funding scarcity."
+    ]
+  },
+  {
+    key: "scalability",
+    name: 'Scalability ("Accordion")',
+    questions: [
+      "When emergency needs require rapid expansion, our organization successfully deploys the necessary IT infrastructure and internal procedures to manage new staff without operational breakdown.",
+      "We have documented (not just informal/tribal-knowledge) procedures for onboarding new staff or volunteers during a crisis surge.",
+      "After a surge ends, we can scale back down without losing critical capacity or institutional knowledge."
+    ]
+  },
+  {
+    key: "knowledge",
+    name: "Knowledge Management",
+    questions: [
+      "Our organization systematically captures and transfers specialized training across different member NGOs.",
+      "When staff are reassigned to a new trauma specialization (e.g., domestic violence to war trauma), there is a formal process for transferring relevant expertise.",
+      "Lessons learned from past emergency responses are documented and accessible to staff who weren't directly involved."
+    ]
+  },
+  {
+    key: "anticipatory",
+    name: "Anticipatory Innovation",
+    questions: [
+      "Leadership proactively designs and funds scalable solutions for anticipated future surges, rather than solely reacting to immediate, survival-mode crises.",
+      "We dedicate time and resources to planning for future scenarios (e.g., post-ceasefire demand shifts) even while managing current crises.",
+      "Innovation initiatives are pursued proactively, not only triggered reactively by an emergency."
+    ]
+  },
+  {
+    key: "risk",
+    name: "Risk Tolerance & Psychological Safety",
+    questions: [
+      "Leadership treats unsuccessful pilot initiatives as valuable learning opportunities rather than professional failures.",
+      "Staff feel comfortable proposing and testing new ideas, even ones that might not work, without fear of professional repercussions.",
+      "There is a defined, low-risk process for piloting small-scale changes before committing to full implementation."
+    ]
+  }
+];
+
+const ROLE_OPTIONS = ["HQ Leadership", "Regional Field Coordinator", "Member NGO Leader"];
+const STORAGE_KEY = "itc_innovation_submissions";
+
+// ---------- Render survey ----------
+const container = document.getElementById("questionsContainer");
+DIMENSIONS.forEach(dim => {
+  const block = document.createElement("div");
+  block.className = "dimension-block";
+  block.innerHTML = `<h3>${dim.name}</h3>`;
+  dim.questions.forEach((qtext, qi) => {
+    const qid = `${dim.key}_${qi}`;
+    const qDiv = document.createElement("div");
+    qDiv.className = "question";
+    qDiv.innerHTML = `
+      <p class="qtext">${qtext}</p>
+      ${["current", "target"].map(kind => `
+        <div class="rating-row" data-qid="${qid}" data-kind="${kind}">
+          <span class="rlabel">${kind === "current" ? "Current" : "Target"}</span>
+          <div class="scale">
+            ${[1,2,3,4,5].map(v => `
+              <input type="radio" name="${qid}_${kind}" id="${qid}_${kind}_${v}" value="${v}" />
+              <label for="${qid}_${kind}_${v}">${v}</label>
+            `).join("")}
+          </div>
+        </div>
+      `).join("")}
+    `;
+    block.appendChild(qDiv);
+  });
+  container.appendChild(block);
+});
+
+function collectResponse() {
+  const answers = {};
+  DIMENSIONS.forEach(dim => {
+    dim.questions.forEach((_, qi) => {
+      const qid = `${dim.key}_${qi}`;
+      const current = document.querySelector(`input[name="${qid}_current"]:checked`);
+      const target = document.querySelector(`input[name="${qid}_target"]:checked`);
+      answers[qid] = {
+        current: current ? Number(current.value) : null,
+        target: target ? Number(target.value) : null
+      };
+    });
+  });
+  return {
+    respondent: {
+      name: document.getElementById("rName").value || "(anonymous)",
+      role: document.getElementById("rRole").value,
+      date: new Date().toISOString().slice(0,10)
+    },
+    answers
+  };
+}
+
+function saveLocal(submission) {
+  const existing = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  existing.push(submission);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+}
+
+function downloadJSON(obj, filename) {
+  const blob = new Blob([JSON.stringify(obj, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+document.getElementById("submitBtn").addEventListener("click", () => {
+  const submission = collectResponse();
+  const answered = Object.values(submission.answers).filter(a => a.current && a.target).length;
+  const total = Object.keys(submission.answers).length;
+  if (answered === 0) {
+    alert("Please answer at least one question before submitting.");
+    return;
+  }
+  if (answered < total) {
+    if (!confirm(`You've answered ${answered} of ${total} questions. Save and export anyway?`)) return;
+  }
+  saveLocal(submission);
+  const safeName = (submission.respondent.name || "anon").replace(/[^a-z0-9]/gi, "_");
+  downloadJSON(submission, `itc-response-${safeName}-${submission.respondent.date}.json`);
+  document.getElementById("saveMsg").style.display = "block";
+});
+
+document.getElementById("clearBtn").addEventListener("click", () => {
+  document.querySelectorAll('input[type=radio]').forEach(r => r.checked = false);
+  document.getElementById("rName").value = "";
+  document.getElementById("saveMsg").style.display = "none";
+});
+
+// ---------- Tabs ----------
+const tabSurveyBtn = document.getElementById("tabSurveyBtn");
+const tabResultsBtn = document.getElementById("tabResultsBtn");
+const surveyTab = document.getElementById("surveyTab");
+const resultsTab = document.getElementById("resultsTab");
+
+tabSurveyBtn.addEventListener("click", () => {
+  tabSurveyBtn.classList.add("active");
+  tabResultsBtn.classList.remove("active");
+  surveyTab.style.display = "block";
+  resultsTab.style.display = "none";
+});
+tabResultsBtn.addEventListener("click", () => {
+  tabResultsBtn.classList.add("active");
+  tabSurveyBtn.classList.remove("active");
+  surveyTab.style.display = "none";
+  resultsTab.style.display = "block";
+  renderResults();
+});
+
+// ---------- Results / aggregation ----------
+let uploadedSubmissions = [];
+
+document.getElementById("fileInput").addEventListener("change", (e) => {
+  const files = Array.from(e.target.files);
+  let pending = files.length;
+  files.forEach(file => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const data = JSON.parse(reader.result);
+        uploadedSubmissions.push({ ...data, _source: file.name });
+      } catch (err) {
+        alert(`Could not parse ${file.name} — is it a valid exported response file?`);
+      }
+      pending--;
+      if (pending === 0) renderResults();
+    };
+    reader.readAsText(file);
+  });
+});
+
+document.getElementById("resetLocalBtn").addEventListener("click", () => {
+  if (confirm("Clear all responses saved locally on this device? (Uploaded files stay loaded.)")) {
+    localStorage.removeItem(STORAGE_KEY);
+    renderResults();
+  }
+});
+
+function getAllSubmissions() {
+  const local = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+  return [...local, ...uploadedSubmissions];
+}
+
+let radarChartInstance = null;
+
+function renderResults() {
+  const submissions = getAllSubmissions();
+
+  // chips showing loaded submissions
+  const chipsDiv = document.getElementById("loadedChips");
+  chipsDiv.innerHTML = submissions.length
+    ? submissions.map(s => `<span class="chip">${s.respondent?.name || "anon"} · ${s.respondent?.role || "?"}</span>`).join("")
+    : `<p class="muted">No responses loaded yet — fill out the assessment or upload exported files.</p>`;
+
+  const dimStats = DIMENSIONS.map(dim => {
+    let curSum = 0, curN = 0, tgtSum = 0, tgtN = 0;
+    const byRole = {};
+    ROLE_OPTIONS.forEach(r => byRole[r] = { curSum: 0, curN: 0 });
+
+    submissions.forEach(sub => {
+      dim.questions.forEach((_, qi) => {
+        const qid = `${dim.key}_${qi}`;
+        const a = sub.answers?.[qid];
+        if (a?.current) {
+          curSum += a.current; curN++;
+          const role = sub.respondent?.role;
+          if (byRole[role]) { byRole[role].curSum += a.current; byRole[role].curN++; }
+        }
+        if (a?.target) { tgtSum += a.target; tgtN++; }
+      });
+    });
+
+    const avgCurrent = curN ? curSum / curN : null;
+    const avgTarget = tgtN ? tgtSum / tgtN : null;
+    const gap = (avgCurrent !== null && avgTarget !== null) ? avgTarget - avgCurrent : null;
+
+    const roleAverages = {};
+    ROLE_OPTIONS.forEach(r => {
+      roleAverages[r] = byRole[r].curN ? byRole[r].curSum / byRole[r].curN : null;
+    });
+    const validRoleScores = Object.values(roleAverages).filter(v => v !== null);
+    const spread = validRoleScores.length >= 2 ? Math.max(...validRoleScores) - Math.min(...validRoleScores) : null;
+
+    return { dim, avgCurrent, avgTarget, gap, roleAverages, spread };
+  });
+
+  // score table
+  const scoreBody = document.querySelector("#scoreTable tbody");
+  scoreBody.innerHTML = dimStats.map(s => {
+    const isBarrier = (s.avgCurrent !== null && s.avgCurrent < 3.0) || (s.gap !== null && s.gap >= 1.5);
+    const tag = s.avgCurrent === null
+      ? `<span class="tag muted">no data</span>`
+      : isBarrier
+        ? `<span class="tag barrier">innovation barrier</span>`
+        : `<span class="tag ok">stable</span>`;
+    return `<tr>
+      <td>${s.dim.name}</td>
+      <td>${s.avgCurrent !== null ? s.avgCurrent.toFixed(1) : "—"}</td>
+      <td>${s.avgTarget !== null ? s.avgTarget.toFixed(1) : "—"}</td>
+      <td>${s.gap !== null ? s.gap.toFixed(1) : "—"}</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join("");
+
+  // divergence table
+  const divBody = document.querySelector("#divergenceTable tbody");
+  divBody.innerHTML = dimStats.map(s => {
+    const flagged = s.spread !== null && s.spread >= 1.5;
+    const tag = s.spread === null
+      ? `<span class="tag muted">insufficient data</span>`
+      : flagged
+        ? `<span class="tag divergence">disconnect</span>`
+        : `<span class="tag ok">aligned</span>`;
+    return `<tr>
+      <td>${s.dim.name}</td>
+      <td>${s.roleAverages["HQ Leadership"] !== null ? s.roleAverages["HQ Leadership"].toFixed(1) : "—"}</td>
+      <td>${s.roleAverages["Regional Field Coordinator"] !== null ? s.roleAverages["Regional Field Coordinator"].toFixed(1) : "—"}</td>
+      <td>${s.roleAverages["Member NGO Leader"] !== null ? s.roleAverages["Member NGO Leader"].toFixed(1) : "—"}</td>
+      <td>${s.spread !== null ? s.spread.toFixed(1) : "—"}</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join("");
+
+  // radar chart
+  const ctx = document.getElementById("radarChart").getContext("2d");
+  const labels = dimStats.map(s => s.dim.name);
+  const currentData = dimStats.map(s => s.avgCurrent ?? 0);
+  const targetData = dimStats.map(s => s.avgTarget ?? 0);
+
+  if (radarChartInstance) radarChartInstance.destroy();
+  radarChartInstance = new Chart(ctx, {
+    type: "radar",
+    data: {
+      labels,
+      datasets: [
+        {
+          label: "Current state",
+          data: currentData,
+          borderColor: "#3d3aad",
+          backgroundColor: "rgba(61,58,173,0.2)",
+        },
+        {
+          label: "Target state",
+          data: targetData,
+          borderColor: "#d9822b",
+          backgroundColor: "rgba(217,130,43,0.15)",
+        }
+      ]
+    },
+    options: {
+      scales: { r: { min: 0, max: 5, ticks: { stepSize: 1 } } },
+      plugins: { legend: { position: "bottom" } }
+    }
+  });
+}
+</script>
+
+</body>
+</html>
