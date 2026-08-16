@@ -1,31 +1,34 @@
-# ITC Innovation Assessment
+# OERA — Organizational Entrepreneurial Readiness Assessment
 
-A tailored organizational innovation & change-capacity assessment tool built for the **Israel Trauma Coalition (ITC)** partner-organization project — Organizational Innovation course, RUNI MBA.
+A generic model — **Direction → Enable → Discover → Act → Learn & Scale** — for assessing whether an organization has the conditions to identify opportunities, experiment under uncertainty, learn from evidence, and scale successful change. Built for the Organizational Innovation course, RUNI MBA, and applied here to a real partner organization.
 
 **Live tool:** enable GitHub Pages on this repo (Settings → Pages → Deploy from branch `main` / root) to get a shareable link, or just open `index.html` locally in a browser.
 
 ## What this is
 
-Modeled on the mechanic behind [Idit Biton's Organizational Innovation Map](https://innovationmap.iditbiton.com) (the INSA-based assessment tool demonstrated in class): every question is rated twice — **Current state** and **Target state**, both 1–5 — so the gap between them becomes the actual finding, not just a raw score.
+Two ideas merged into one instrument:
 
-This version is scoped to a custom 5-dimension model built specifically for ITC, rather than the full 15-dimension INSA instrument, per the assignment's requirement to design and justify your own model (drawing on INSA/the Innovation Map as inspiration, not adopting them wholesale).
+1. **The generic OERA model** (5-stage model logic, Maturity/Importance-style dual rating, Priority = Importance × (5 − Maturity) scoring, polished assessment UI) — a reusable, organization-agnostic readiness framework.
+2. **A tailored innovation-capacity model** for the assignment's partner organization, Israel Trauma Coalition (ITC), modeled on the mechanic behind [Idit Biton's Organizational Innovation Map](https://innovationmap.iditbiton.com) (current state vs. target state per question, gap-driven findings).
 
-## The model
+Rather than running two separate instruments, each of OERA's 5 generic stages is instantiated here by one applied, evidence-grounded capability:
 
-| Dimension | What it probes |
-|---|---|
-| **Ecosystem Stability** | Whether ITC's member-NGO partnerships hold up under competitive pressure (e.g. post–Oct 7 funding surges/talent competition) |
-| **Scalability ("Accordion")** | Whether IT infrastructure and procedures can expand and contract rapidly during emergencies without breaking |
-| **Knowledge Management** | Whether specialized trauma expertise is captured and transferred, not lost, as staff are rapidly re-tasked |
-| **Anticipatory Innovation** | Whether leadership plans proactively for future demand shifts, or only reacts in crisis mode |
-| **Risk Tolerance & Psychological Safety** | Whether the org can safely pilot and fail small, which determines whether any recommended Minimum Viable Change is actually feasible |
+| Stage | Applied capability | What it probes |
+|---|---|---|
+| **Direction** | Anticipatory Innovation | Whether leadership plans proactively for future demand shifts, or only reacts in crisis mode |
+| **Enable** | Risk Tolerance & Psychological Safety | Whether the org can safely pilot and fail small — a precondition for any recommended change |
+| **Discover** | Ecosystem Stability | Whether partnerships hold up under competitive pressure (e.g. post–Oct 7 funding surges/talent competition) |
+| **Act** | Scalability ("Accordion") | Whether IT infrastructure and procedures can expand and contract rapidly during emergencies without breaking |
+| **Learn & Scale** | Knowledge Management | Whether specialized trauma expertise is captured and transferred, not lost, as staff are rapidly re-tasked |
 
-Each dimension has 3 questions (15 total). Full question text lives in `index.html`.
+Each capability has 3 questions (15 total). Full question text lives in `index.html`.
+
+This keeps the assignment's requirement to design and justify a custom model (drawing on INSA/the Innovation Map/other sources as inspiration, not adopting any one wholesale) while still being able to point to a defensible, general theoretical backbone.
 
 ## Scoring logic
 
-- **Innovation barrier flag:** a dimension's average Current score < 3.0, **or** its Current→Target gap ≥ 1.5
-- **Stakeholder divergence flag:** a spread of ≥ 1.5 points between HQ Leadership, Regional Field Coordinators, and Member NGO Leaders on the same dimension — this is the "does leadership's story match the field's reality" check
+- **Priority score per question/capability:** Target × (5 − Current) — high-target, low-current capabilities rise to the top (same logic as OERA's Importance × (5 − Maturity), translated into current/target terms)
+- **Stakeholder divergence flag:** a spread of ≥ 1.5 points between HQ Leadership, Regional Field Coordinators, and Member NGO Leaders on the same capability — the "does leadership's story match the field's reality" check
 
 ## How to use it at the hackathon / with real respondents
 
