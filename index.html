@@ -21,7 +21,7 @@ header{padding:64px 0 24px;text-align:center}
 .badge{display:inline-flex;padding:7px 12px;border-radius:999px;background:var(--soft);color:var(--blue);font-size:12px;font-weight:850;letter-spacing:.06em}
 h1{font-size:clamp(34px,6vw,52px);line-height:1.05;letter-spacing:-.03em;color:var(--navy);margin:16px 0 10px}
 header p{font-size:17px;color:var(--muted);max-width:640px;margin:0 auto;line-height:1.6}
-.cards{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:36px 0 60px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;padding:36px 0 60px}
 .card{
   background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:28px;
   box-shadow:0 8px 28px rgba(23,50,77,.06);display:flex;flex-direction:column;gap:12px;
@@ -56,8 +56,14 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding-bottom:50px}
     <a class="card" href="simulated.html">
       <span class="tag sim">SIMULATED — NOT REAL DATA</span>
       <h2>Simulated Preview</h2>
-      <p>A rehearsal dashboard using 12 invented respondent personas and fabricated scores across OERA's full generic 7-dimension/28-question model. Shows what a finished multi-level results view could look like, and surfaces hypotheses to go test in the real interview — none of these numbers are real ITC data.</p>
+      <p>A rehearsal dashboard using 12 invented respondent personas and fabricated scores across the same 5 capabilities as the Live Assessment. Shows what a finished multi-level results view could look like, and surfaces hypotheses to go test in the real interview — none of these numbers are real ITC data.</p>
       <span class="cta">Open the simulated preview →</span>
+    </a>
+    <a class="card" href="presentation.html">
+      <span class="tag sim">SIMULATED — REHEARSAL PITCH</span>
+      <h2>3–5 Min Pitch Deck</h2>
+      <p>A 7-slide rehearsal presentation built on the simulated data: good news, bad news, and a 1-year outlook with three priority moves. Keyboard/click navigation, print-to-PDF friendly.</p>
+      <span class="cta">Open the presentation →</span>
     </a>
   </div>
 

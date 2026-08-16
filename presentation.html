@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>ITC Innovation Readiness — Pitch (Simulated Rehearsal)</title>
+<style>
+:root{
+  --bg:#f5f7fb; --paper:#fff; --navy:#17324d; --blue:#2f6f9e;
+  --ink:#1f2937; --muted:#667085; --line:#d9e2ec; --soft:#edf4f8;
+  --good:#2f8f5b; --bad:#c14f4f; --warn:#a97a0e;
+  --shadow:0 20px 60px rgba(23,50,77,.16);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);background:#dfe4ec;height:100vh;overflow:hidden;
+}
+.deck{position:relative;width:100vw;height:100vh;}
+.slide{
+  position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+  padding:6vh 8vw;background:linear-gradient(180deg,#fbfcfe 0%,var(--bg) 100%);
+}
+.slide.active{display:flex}
+.eyebrow{font-size:13px;font-weight:900;letter-spacing:.14em;color:var(--blue);text-transform:uppercase;margin-bottom:10px}
+h1{font-size:clamp(30px,4.2vw,56px);color:var(--navy);letter-spacing:-.03em;margin:0 0 14px;line-height:1.05}
+h2{font-size:clamp(22px,2.6vw,34px);color:var(--navy);letter-spacing:-.02em;margin:0 0 18px}
+p.lead{font-size:clamp(15px,1.5vw,20px);color:var(--muted);max-width:900px;line-height:1.6}
+.warning-badge{
+  display:inline-flex;align-self:flex-start;padding:8px 14px;border-radius:999px;background:#fff5da;
+  color:#72570c;font-size:13px;font-weight:900;letter-spacing:.05em;border:1px solid #ead18b;margin-bottom:18px
+}
+.flow{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.flow span{
+  background:var(--soft);color:var(--blue);padding:8px 14px;border-radius:999px;font-size:13px;font-weight:850;
+}
+.flow span::after{content:"→";color:var(--muted);margin-left:10px;font-weight:400}
+.flow span:last-child::after{content:""}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:22px;max-width:960px}
+.metric{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 24px rgba(23,50,77,.06)}
+.metric small{display:block;color:var(--muted);font-weight:800;font-size:12px;letter-spacing:.04em}
+.metric strong{display:block;font-size:28px;color:var(--navy);margin-top:6px}
+.metric span{display:block;color:var(--muted);font-size:12.5px;margin-top:4px}
+.bars{margin-top:22px;max-width:820px}
+.bar-row{margin-bottom:14px}
+.bar-label{display:flex;justify-content:space-between;font-size:14px;color:var(--navy);font-weight:750;margin-bottom:6px}
+.bar-label small{color:var(--muted);font-weight:600}
+.bar-track{height:12px;background:#e8edf2;border-radius:999px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:999px}
+.bar-target{position:absolute;top:-3px;bottom:-3px;width:3px;background:var(--navy)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:20px;max-width:1100px}
+.pane{border-radius:18px;padding:22px;border:1px solid var(--line);box-shadow:0 8px 24px rgba(23,50,77,.05)}
+.pane.good{background:#f0f9f3;border-color:#bfe3cd}
+.pane.bad{background:#fdf2f2;border-color:#f1c9c9}
+.pane h3{margin:0 0 12px;font-size:18px;color:var(--navy);display:flex;align-items:center;gap:8px}
+.pane ul{margin:0;padding-left:20px;color:var(--ink);line-height:1.7;font-size:14.5px}
+.pane ul li b{color:var(--navy)}
+.cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:20px;max-width:1150px}
+.action-card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(23,50,77,.06)}
+.action-card .num{display:inline-flex;width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;align-items:center;justify-content:center;font-weight:900;font-size:14px;margin-bottom:10px}
+.action-card h4{margin:0 0 8px;color:var(--navy);font-size:16.5px;line-height:1.35}
+.action-card p{margin:0 0 6px;color:var(--muted);font-size:13.5px;line-height:1.55}
+.action-card .meta{font-size:12px;color:var(--blue);font-weight:800;margin-top:10px}
+.ask-box{
+  margin-top:24px;max-width:960px;background:linear-gradient(155deg,var(--navy),#244d70);color:#fff;
+  border-radius:20px;padding:26px;box-shadow:var(--shadow);
+}
+.ask-box small{opacity:.75;font-weight:800;letter-spacing:.08em;font-size:12px}
+.ask-box p{font-size:16px;line-height:1.6;margin:10px 0 0}
+.progress-dots{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:8px;z-index:20}
+.dot{width:8px;height:8px;border-radius:50%;background:#c3ccd8;cursor:pointer}
+.dot.active{background:var(--navy);width:22px;border-radius:999px}
+.navbtn{
+  position:fixed;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;
+  background:#fff;border:1px solid var(--line);box-shadow:0 6px 18px rgba(23,50,77,.12);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;color:var(--navy);z-index:20
+}
+#prevBtn{left:18px}#nextBtn{right:18px}
+.slide-count{position:fixed;top:20px;right:22px;font-size:12.5px;color:var(--muted);font-weight:700;z-index:20}
+.exitlink{position:fixed;top:20px;left:22px;font-size:12.5px;color:var(--muted);font-weight:700;z-index:20;text-decoration:none}
+@media print{
+  body{height:auto;overflow:visible;background:#fff}
+  .slide{position:relative;display:flex !important;height:100vh;page-break-after:always}
+  .navbtn,.progress-dots,.slide-count,.exitlink{display:none}
+}
+@media(max-width:760px){
+  .metrics,.two-col,.cards3{grid-template-columns:1fr}
+  .navbtn{width:38px;height:38px}
+}
+</style>
+</head>
+<body>
+
+<a class="exitlink" href="index.html">← All tools</a>
+<div class="slide-count"><span id="slideNum">1</span> / <span id="slideTotal">7</span></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 -->
+  <section class="slide active">
+    <span class="warning-badge">⚠ SIMULATED DATA — REHEARSAL PITCH, NOT REAL ITC RESPONSES</span>
+    <div class="eyebrow">Organizational Innovation · RUNI MBA</div>
+    <h1>ITC Innovation Readiness<br/>— a 1-year outlook</h1>
+    <p class="lead">A dry run of our Wednesday pitch, built entirely on 12 simulated respondent personas — used to sharpen what we go test, not to claim we already have the answer.</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="slide">
+    <div class="eyebrow">The question we're answering</div>
+    <h2>How ready is ITC to sense opportunity, safely experiment, and make what works stick — under sustained crisis conditions?</h2>
+    <p class="lead">Assessed via 5 evidence-grounded capabilities, each mapped to one stage of a generic readiness model. 15 questions, Current vs. Target state, 1–5 scale.</p>
+    <div class="flow">
+      <span>Direction</span><span>Enable</span><span>Discover</span><span>Act</span><span>Learn &amp; Scale</span>
+    </div>
+    <div class="flow" style="margin-top:8px">
+      <span>Anticipatory Innovation</span><span>Risk Tolerance</span><span>Ecosystem Stability</span><span>Scalability</span><span>Knowledge Mgmt</span>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="slide">
+    <div class="eyebrow">Simulated scorecard</div>
+    <h2>Overall readiness: 3.9 / 5 — but the average hides the real story</h2>
+    <div class="metrics">
+      <div class="metric"><small>Overall current state</small><strong>3.88 / 5</strong><span>Across all 5 capabilities</span></div>
+      <div class="metric"><small>Strongest capability</small><strong>4.60 / 5</strong><span>Ecosystem Stability</span></div>
+      <div class="metric"><small>Weakest capability</small><strong>3.04 / 5</strong><span>Scalability ("Accordion")</span></div>
+    </div>
+    <div class="bars">
+      <div class="bar-row"><div class="bar-label"><span>Ecosystem Stability</span><small>4.60 → target 4.82</small></div><div class="bar-track"><div class="bar-fill" style="width:92%;background:var(--good)"></div><div class="bar-target" style="left:96.4%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Risk Tolerance &amp; Psych. Safety</span><small>4.07 → target 4.55</small></div><div class="bar-track"><div class="bar-fill" style="width:81%;background:var(--blue)"></div><div class="bar-target" style="left:91%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Knowledge Management</span><small>3.96 → target 4.81</small></div><div class="bar-track"><div class="bar-fill" style="width:79%;background:var(--blue)"></div><div class="bar-target" style="left:96%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Anticipatory Innovation</span><small>3.75 → target 4.61</small></div><div class="bar-track"><div class="bar-fill" style="width:75%;background:var(--warn)"></div><div class="bar-target" style="left:92%"></div></div></div>
+      <div class="bar-row"><div class="bar-label"><span>Scalability ("Accordion")</span><small>3.04 → target 4.93</small></div><div class="bar-track"><div class="bar-fill" style="width:61%;background:var(--bad)"></div><div class="bar-target" style="left:99%"></div></div></div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="slide">
+    <div class="eyebrow">What's working</div>
+    <h2>The good</h2>
+    <div class="two-col">
+      <div class="pane good">
+        <h3>🟢 Ecosystem Stability is a real strength</h3>
+        <ul>
+          <li>Highest-rated capability, <b>closest to its own target</b> — the smallest current→target gap of all 5</li>
+          <li>Consistent with real evidence: ITC coordinates <b>58 member organizations</b> and has run a formal government partnership since 2005</li>
+          <li>This is a foundation to build on, not a risk to manage</li>
+        </ul>
+      </div>
+      <div class="pane good">
+        <h3>🟢 Knowledge intent exists, even if execution lags</h3>
+        <ul>
+          <li>Second-highest current score (3.96) — staff and leadership both recognize the need to capture trauma expertise</li>
+          <li>The gap here is about <b>systematizing</b> an instinct that already exists, not building one from nothing</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="slide">
+    <div class="eyebrow">What's at risk</div>
+    <h2>The bad</h2>
+    <div class="two-col">
+      <div class="pane bad">
+        <h3>🔴 Scalability is the #1 priority gap</h3>
+        <ul>
+          <li>Lowest current score (3.04) <b>and</b> the widest gap to target (1.89 pts) — the single highest-priority finding in the whole model</li>
+          <li>Reads as: crisis surges are handled by improvisation, not documented procedure — a real risk when institutional memory walks out the door</li>
+        </ul>
+      </div>
+      <div class="pane bad">
+        <h3>🟠 A leadership-vs-field disconnect, hypothesized</h3>
+        <ul>
+          <li>Simulated Executive respondents consistently rate Risk Tolerance and Scalability <b>higher</b> than Field/Resilience-Center respondents</li>
+          <li><b>Unconfirmed</b> — this is exactly what Wednesday's interview needs to test with a real HQ voice and a real field voice</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="slide">
+    <div class="eyebrow">One-year outlook</div>
+    <h2>Three priority moves</h2>
+    <div class="cards3">
+      <div class="action-card">
+        <span class="num">1</span>
+        <h4>Document the surge playbook</h4>
+        <p>Turn tribal-knowledge onboarding/IT procedures into a written, rehearsed surge protocol — piloted in one region first.</p>
+        <div class="meta">90-day MVC · Owner: Ops lead</div>
+      </div>
+      <div class="action-card">
+        <span class="num">2</span>
+        <h4>Protect planning time from crisis mode</h4>
+        <p>A standing, protected working session for post-ceasefire and future-demand scenarios — not squeezed in around emergencies.</p>
+        <div class="meta">Quarterly cadence · Owner: Leadership</div>
+      </div>
+      <div class="action-card">
+        <span class="num">3</span>
+        <h4>Validate the HQ–field gap, then close it</h4>
+        <p>Confirm the divergence with real interviews first; if real, open a direct two-way channel between HQ and Resilience Center directors.</p>
+        <div class="meta">First 90 days · Owner: All layers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 -->
+  <section class="slide">
+    <div class="eyebrow">Where this leaves us</div>
+    <h2>This is a rehearsal, not a diagnosis</h2>
+    <p class="lead">Every number on the last four slides came from 12 invented personas. The real work starts Wednesday, testing exactly these three things with real ITC voices.</p>
+    <div class="ask-box">
+      <small>PIVOT TRIGGER &amp; ASK</small>
+      <p><b>If the interview confirms Scalability as the real bottleneck</b> — our MVC becomes a single documented onboarding checklist, piloted in one Resilience Center this quarter.<br/><br/>
+      <b>If it doesn't</b> — we pivot to Anticipatory Innovation, the next-highest simulated priority. Either way, we need 10 minutes with one HQ voice and one field voice, asked the same question, back to back.</p>
+    </div>
+  </section>
+
+</div>
+
+<div class="navbtn" id="prevBtn">‹</div>
+<div class="navbtn" id="nextBtn">›</div>
+<div class="progress-dots" id="dots"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let idx = 0;
+const dotsEl = document.getElementById('dots');
+slides.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.addEventListener('click',()=>go(i));
+  dotsEl.appendChild(d);
+});
+document.getElementById('slideTotal').textContent = slides.length;
+
+function go(n){
+  idx = Math.max(0, Math.min(slides.length-1, n));
+  slides.forEach((s,i)=>s.classList.toggle('active', i===idx));
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active', i===idx));
+  document.getElementById('slideNum').textContent = idx+1;
+}
+document.getElementById('prevBtn').addEventListener('click',()=>go(idx-1));
+document.getElementById('nextBtn').addEventListener('click',()=>go(idx+1));
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='ArrowRight'||e.key===' ') go(idx+1);
+  if(e.key==='ArrowLeft') go(idx-1);
+});
+</script>
+
+</body>
+</html>
