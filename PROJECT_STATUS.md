@@ -2,7 +2,7 @@
 
 **Course:** Organizational Innovation, RUNI MBA · **Partner org:** Israel Trauma Coalition (ITC) · **Team:** Goldie (Model Architect), Esti (Evidence Lead), Mika (Skeptic), Amit (Reporter), Tal (AI Strategist)
 
-> ⚠️ **Read this before anything else goes in the report.** This document tags every claim below as **FACT** (verified, public), **INTERPRETATION** (a hypothesis generated from simulated/fabricated data, not real), or **UNKNOWN** (must be answered in the live interview). Nothing tagged INTERPRETATION may be presented in your final submission as a real finding — it exists only to sharpen what you ask on Wednesday.
+> ⚠️ **Read this before anything else goes in the report.** Claims below are tagged **FACT** (verified, public or directly stated by ITC staff), **PERCEPTION** (a respondent's own belief/feeling), **INTERPRETATION** (our team's inference, or a hypothesis from simulated/fabricated data — not real), or **UNKNOWN** (not yet addressed). Nothing tagged INTERPRETATION or drawn from the simulated preview may be presented as a real finding without confirmation. Full interview tagging: `EVIDENCE_LOG.md`.
 
 ---
 
@@ -11,12 +11,12 @@
 | Phase (your own plan) | Status |
 |---|---|
 | Phase 0 — Pre-hackathon prep | ✅ Done: 5 capabilities locked, scoring logic set, tools built |
-| Phase 1 — Hackathon (interview + model + MVC) | ⏳ Not yet — happens live, Wednesday |
-| Phase 2 — Post-class synthesis (4-bucket evidence, divergence) | ⏳ Depends on Phase 1 |
+| Phase 1 — Hackathon (interview + model + MVC) | ✅ First interview conducted and transcribed — see Section 5 |
+| Phase 2 — Post-class synthesis (4-bucket evidence, divergence) | ⏳ In progress — one voice tagged (`EVIDENCE_LOG.md`), field-level voice still needed |
 | Phase 3 — Draft the report | ⏳ Not started |
 | Phase 4 — Final polish & rubric check | ⏳ Not started |
 
-You are fully prepped for Wednesday. Nothing below is a substitute for the interview — it's ammunition for it.
+Real evidence has started coming in. Section 4 (simulated) stays as a record of what you hypothesized *before* hearing from ITC — keep it, don't delete it, it's useful to show in Part I/II how your thinking evolved with evidence.
 
 ---
 
@@ -62,13 +62,16 @@ None of these may appear in your submission without being confirmed by an actual
 
 ---
 
-## 5. Critical unknowns (tag: **UNKNOWN** — the real target of Wednesday's 45 minutes)
+## 5. Real evidence — Interview #1 (tag legend: FACT / PERCEPTION / INTERPRETATION / UNKNOWN)
 
-- Does leadership actually treat failed pilots as learning, or is that aspirational language? (Risk Tolerance)
-- Are onboarding/IT procedures during surges *documented*, or tribal knowledge held by a few people? (Scalability)
-- Is cross-specialization knowledge transfer (e.g. domestic violence → war trauma) formal, or ad hoc and person-dependent? (Knowledge Management)
-- Does anyone hold dedicated time/mandate for proactive planning, separate from crisis response? (Anticipatory Innovation)
-- What does a **field-level** voice say, compared to HQ, on any of the above? This is your one shot at a real divergence finding — don't leave the hackathon without asking the same question to both a leadership and a field/NGO voice.
+Full tagging with timestamps lives in `EVIDENCE_LOG.md`. Headlines:
+
+- **Ecosystem Stability — mixed, not simply "strong."** Partnership structure held up and even expanded post-Oct-7 (FACT), but the respondent said unprompted that "we cannot rely on philanthropy for much longer" (FACT) — the funding model underneath the partnership is explicitly called unsustainable by ITC's own staff. This complicates the simulated "Ecosystem = strength" hypothesis.
+- **Scalability — confirmed as a real gap, more precisely than simulated.** Fragmented, department-siloed software systems that don't communicate, now being replaced (FACT) — but the fix came *after* growth pain, not ahead of it. Pattern: **partner/therapist network scales fast under crisis; internal systems lag and get patched reactively.**
+- **Knowledge Management — likely understated by the simulation.** A real, working mechanism exists: thin per-center management (4 people) + monthly cross-role network meetings + at least two concrete examples of a field-raised gap becoming a new cross-org partnership/protocol (disability access; addiction & trauma). This may be closer to a strength than the simulated 3.96 suggested.
+- **Anticipatory Innovation — leadership names it, hasn't operationalized it.** Two forward directions named (selling services abroad; tech-enabled therapy) but self-described as "not there yet" on the tech side (PERCEPTION). One-year vision centers on *strengthening existing infrastructure*, not launching new capability — a consolidation posture.
+- **Risk Tolerance & Psychological Safety — UNKNOWN, not addressed at all.** No question in this interview touched how ITC treats a failed pilot. Still a genuine open gap.
+- **Coverage gap:** this is **one HQ/management-adjacent respondent**. The HQ-vs-field divergence check your model is built around has **not been tested yet** — still need a Regional Field Coordinator or Member NGO Leader voice.
 
 ---
 
@@ -81,9 +84,9 @@ None of these may appear in your submission without being confirmed by an actual
 
 ---
 
-## 7. Recommended next actions before Wednesday
+## 7. Recommended next actions
 
-1. Assign one team member's interview attention to each of the 5 capabilities so nobody duplicates questions in the 45-minute window.
-2. Decide now: will ITC reps fill in the Live Assessment tool themselves, or will your team score Current/Target afterward based on what you heard? (Still open from earlier — worth locking before you walk in.)
-3. Rehearse the Gate 1 checklist out loud as a team: one grounded insight, one contradiction, three missing pieces, one change question, **no preferred solution yet**.
-4. Bring the 5 hypotheses from Section 4 as things to specifically probe — don't ask generic questions when you already have sharp candidates to confirm or kill.
+1. **Get a second interview if at all possible** — a Regional Field Coordinator or Member NGO Leader, asked the same core questions. Without it, Part II cannot make any HQ-vs-field claim, which is one of your model's central mechanisms.
+2. **Explicitly ask about Risk Tolerance next time** — it was the one capability never touched: "what happens when a pilot or new initiative doesn't work out?"
+3. **Decide how Current/Target scores actually get assigned** given you have rich qualitative evidence but no Likert numbers yet — most defensible path: your team assigns Current/Target per capability *based on* the tagged evidence in `EVIDENCE_LOG.md`, with the reasoning shown, rather than inventing precision the interview didn't produce.
+4. **Use the Ecosystem Stability funding-sustainability finding and the Knowledge Management strength finding as your two lead Part II points** — both are real, both are citable with a timestamp, and both meaningfully update (not just confirm) your pre-interview hypotheses.
